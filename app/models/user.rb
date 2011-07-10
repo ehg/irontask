@@ -4,10 +4,9 @@ class User < ActiveRecord::Base
   validates_presence_of :username, :password, :salt
   validates :username, :length => {:maximum => 50}
 
-  def self.valid_details?(username, password)
-    if u = User.find_by_username(username) 
-      return (Digest::SHA2.new << password+u.salt).to_s == u.password
-    end
-    false 
+  def self.authenticate(username, password)
+    return nil unless user = User.find_by_username(username) 
+    return user if (Digest::SHA2.new << password+user.salt).to_s == user.password
   end
+
 end

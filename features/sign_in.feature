@@ -19,7 +19,7 @@ Feature: Secure access to the site
                 And I fill in "wrongpassword" for "password"
                 And I press "Sign in"
                 Then I should be on the sign in page
-                And I should see "Unrecognised user name/password!"
+                And I should see "Wrong Username/Email and password combination."
 
         Scenario: User logs out
                 Given I am logged in

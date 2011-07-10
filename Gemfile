@@ -14,6 +14,8 @@ gem 'coffee-script'
 gem 'uglifier'
 gem 'haml'
 gem 'jquery-rails'
+gem 'warden'
+gem 'rails_warden'
 
 group :cucumber, :development, :test do
   gem "rspec-rails", ">= 2.0.0"

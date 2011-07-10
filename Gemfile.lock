@@ -102,6 +102,8 @@ GEM
       activesupport (= 3.1.0.rc4)
       bundler (~> 1.0)
       railties (= 3.1.0.rc4)
+    rails_warden (0.5.5)
+      warden (>= 1.0.0)
     railties (3.1.0.rc4)
       actionpack (= 3.1.0.rc4)
       activesupport (= 3.1.0.rc4)
@@ -151,6 +153,8 @@ GEM
     uglifier (1.0.0)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    warden (1.0.4)
+      rack (>= 1.0)
     xpath (0.1.4)
       nokogiri (~> 1.3)
 
@@ -168,8 +172,10 @@ DEPENDENCIES
   machinist (>= 2.0.0.beta2)
   pickle
   rails (= 3.1.0.rc4)
+  rails_warden
   rspec-rails (>= 2.0.0)
   sass-rails (~> 3.1.0.rc)
   sqlite3
   syntax
   uglifier
+  warden

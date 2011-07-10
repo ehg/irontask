@@ -29,15 +29,15 @@ describe User do
     @user.should_not be_valid
   end
 
-  it "says that a correct username and password is correct" do
+  it "authenticates a user's valid details" do
     @user.save!
-    User.valid_details?("test", "testing").should be_true
+    User.authenticate("test", "testing").should_not be_nil 
   end
 
  
-  it "says that an incorrect username and password is incorrect" do
+  it "doesn't authenticate invalid details" do
     @user.save!
-    User.valid_details?("wrong", "wrongpassword").should be_false
+    User.authenticate("wrong", "wrongpassword").should be_false
   end
   
 end
