@@ -7,8 +7,8 @@ Feature: Secure access to the site
 
         Scenario: User logs in with correct details
                 When I go to the sign in page
-                And I fill in "cucumber" for "username"
-                And I fill in "password" for "password"
+                And I fill in "test" for "username"
+                And I fill in "testing" for "password"
                 And I press "Sign in"
                 Then I should be on the tasks page
                 And I should see "Sign out"

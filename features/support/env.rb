@@ -48,3 +48,4 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
+require "#{Rails.root}/spec/support/blueprints" # or wherever they live
