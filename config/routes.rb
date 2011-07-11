@@ -6,6 +6,7 @@ Privydo::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
       match 'sign_in' => 'users#sign_in'
+      match 'sign_out' => 'users#destroy'
       match 'auth' => 'users#create'
       
       match 'tasks' => 'tasks#index'

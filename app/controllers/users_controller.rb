@@ -15,8 +15,8 @@ class UsersController < ApplicationController
     def destroy
       logout
 
-      flash[:notice] = "Logout successful!"
-      redirect_to root_url
+      flash[:notice] = "You have signed out."
+      redirect_to sign_in_url
     end
 
     def unauthenticated

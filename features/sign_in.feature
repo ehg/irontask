@@ -23,6 +23,7 @@ Feature: Secure access to the site
 
         Scenario: User logs out
                 Given I am logged in
-                When I press "Sign out"
+		And I am on the tasks page
+                When I follow "Sign out"
                 Then I should be on the sign in page
                 And I should see "You have signed out."
