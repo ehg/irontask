@@ -5,13 +5,13 @@ Privydo::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
-      match 'sign_in' => 'users#sign_in'
-      match 'sign_out' => 'users#destroy'
-      match 'auth' => 'users#create'
+      resource :account, :controller => "users"
+      resources :users
+      resource :user_session, :as => "session"
       
       match 'tasks' => 'tasks#index'
       
-      root :controller => "users", :action => "sign_in"
+      root :controller => "user_sessions", :action => "new"
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

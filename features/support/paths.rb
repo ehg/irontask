@@ -12,7 +12,10 @@ module NavigationHelpers
       '/'
 
     when /the sign in page/
-      '/sign_in'
+      new_session_path
+
+    when /the sign up page/
+      new_user_path 
     
     when /the tasks page/
       '/tasks'
