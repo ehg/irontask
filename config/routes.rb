@@ -12,6 +12,9 @@ Privydo::Application.routes.draw do
       match 'tasks' => 'tasks#index'
       
       root :controller => "user_sessions", :action => "new"
+      if ["development", "test"].include? Rails.env
+            mount Jasminerice::Engine => "/jasmine" 
+      end
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

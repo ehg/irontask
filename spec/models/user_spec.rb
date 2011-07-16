@@ -40,4 +40,7 @@ describe User do
     User.authenticate("wrong", "wrongpassword").should be_false
   end
   
+  it "should have a salt generated" do
+    @user.salt.should_not be_nil
+  end
 end

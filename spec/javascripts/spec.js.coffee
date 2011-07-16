@@ -1,0 +1,9 @@
+#= require jquery
+#= require jquery_ujs
+#= require underscore
+#= require backbone
+#= require backbone_rails_sync
+#= require backbone_datalink
+#= require backbone/privydo
+#= require sinon-1.1.1
+#= require_tree ./
