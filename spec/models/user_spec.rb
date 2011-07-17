@@ -19,28 +19,25 @@ describe User do
     @user.should_not be_valid
   end
 
-  it "is invalid without a password salt" do
-    @user.salt = nil
-    @user.should_not be_valid
-  end
-
   it "is invalid if the username is over 50 characters" do
     @user.username = "testtesttesttesttesttesttesttesttesttesttesttesttesttest"
     @user.should_not be_valid
   end
 
-  it "authenticates a user's valid details" do
+  it "authenticates a user with username and hashed pass" do
     @user.save!
-    User.authenticate("test", "testing").should_not be_nil 
+    password = (Digest::SHA2.hexdigest "testing").to_s
+    User.authenticate("test", password).should_not be_nil 
   end
 
  
   it "doesn't authenticate invalid details" do
     @user.save!
-    User.authenticate("wrong", "wrongpassword").should be_false
+    User.authenticate("wrong", "wrongpassword").should be_nil
   end
   
   it "should have a salt generated" do
+    @user.save
     @user.salt.should_not be_nil
   end
 end
