@@ -1,13 +1,17 @@
-= form_tag account_path do
-  %p
-    = label_tag :username, "Username or Email Address"
-    = text_field_tag :username, params[:username]
-  %p
-    = label_tag :password, "Password"
-    = password_field_tag :password
-  %p
-    = label_tag :confirm_password, "Confirm password"
-    = password_field_tag :confirm_password
-  %p
-    = submit_tag "Sign up"
-
+<form>
+	<p>
+		<label for="username">Username or Email Address</label>
+		<input name="username" type="text"/>
+ 	</p>
+	<p>
+		<label for="password">Password</label>
+		<input name="password" type="password"/>
+	</p>
+ 	<p>
+		<label for="confirm_password">Confirm password</label>
+		<input name="confirm_password" type="password"/>
+	</p>
+	<p>
+		<button>Sign up</button>
+	</p>
+</form>    

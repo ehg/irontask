@@ -1,6 +1,7 @@
 #= require pidcrypt/sha256
 class Privydo.Models.Account extends Backbone.Model
-	url: 'account'
+	url: '/account'
+	paramRoot: 'user'
 	
 	validate: (atr) ->
 		return "username empty" unless atr.username
