@@ -1,6 +1,7 @@
 //= require ./pidcrypt
 //= require ./pidcrypt_util
 //= require ./aes_core
+//= require ./md5
  /*----------------------------------------------------------------------------*/
  // Copyright (c) 2009 pidder <www.pidder.com>
  // Permission to use, copy, modify, and/or distribute this software for any
