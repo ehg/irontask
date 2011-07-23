@@ -2,7 +2,177 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body.tasks {
-  // Add the tasks class to your body tag
-  // Then, place scoped styles here.
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
 }
+body {
+  line-height: 1;
+  color: black;
+  background: white;
+}
+ol, ul {
+  list-style: none;
+}
+a img {
+  border: none;
+}
+
+html {
+  background: #eeeeee;
+}
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4em;
+    background: #eeeeee;
+    color: #333333;
+  }
+
+#app {
+  width: 480px;
+  margin: 0 auto 40px;
+  background: white;
+  padding: 20px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+}
+  #app h1 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0 30px 0;
+    line-height: 1;
+  }
+
+#create-task {
+  position: relative;
+}
+  #create-task input {
+    width: 466px;
+    font-size: 24px;
+    font-family: inherit;
+    line-height: 1.4em;
+    border: 0;
+    outline: none;
+    padding: 6px;
+    border: 1px solid #999999;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  }
+    #create-task input::-webkit-input-placeholder {
+      font-style: italic;
+    }
+  #create-task span {
+    position: absolute;
+    z-index: 999;
+    width: 170px;
+    left: 50%;
+    margin-left: -85px;
+  }
+
+#task-list {
+  margin-top: 10px;
+}
+  #task-list li {
+    padding: 12px 20px 11px 0;
+    position: relative;
+    font-size: 18px;
+    line-height: 1.1em;
+    border-bottom: 1px solid #cccccc;
+  }
+
+    #task-list .task_text
+    {
+      display: inline;
+    }
+
+    #task-list .task_date
+    {
+      display: inline;
+      float: right 
+    }
+
+    #task-list li:after {
+      content: "\0020";
+      display: block;
+      height: 0;
+      clear: both;
+      overflow: hidden;
+      visibility: hidden;
+    }
+    #task-list li.editing_text, li.editing_date {
+      padding: 0;
+      border-bottom: 0;
+    }
+  #task-list .editing_text .task_text,
+  #task-list .edit_text {
+    display: none;
+  }
+  #task-list .editing_date .task_date,
+  #task-list .edit_date {
+    display: none;
+  }
+    #task-list .editing_text .edit_text {
+      display: block;
+    }
+    #task-list .editing_date .edit_date {
+      display: inline;
+      float: right;
+    }
+
+    #task-list .editing_text input {
+      width: 360px;
+      font-size: 18px;
+      font-family: inherit;
+      margin: 0;
+      line-height: 1.0em;
+      border: 0;
+      outline: none;
+      padding: 4px 2px 0px 6px;
+      border: 1px solid #999999;
+    }
+    
+    #task-list .editing_date input {
+      width: 100px;
+      font-size: 18px;
+      font-family: inherit;
+      margin: 0;
+      line-height: 1.0em;
+      border: 0;
+      outline: none;
+      padding: 4px 3px 0px 7px;
+      border: 1px solid #999999;
+     }
+
+  #task-list .task-menu
+  {
+    display: none;
+    position: absolute;
+    right: 100px;
+    top: 5px;
+    vertical-align: middle;
+  }
+
+  #task-list .task-menu img
+  {
+    vertical-align: middle;
+  }
