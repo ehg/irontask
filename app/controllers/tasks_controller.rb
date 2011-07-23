@@ -1,18 +1,26 @@
 class TasksController < ApplicationController
+  respond_to :html, :json
+
   def index
     case params[:done]
-      when true 
-        render :text => Task.done_tasks.to_json    
-      when false
-        render :text => Task.undone_tasks.to_json    
+      when "1"
+        respond_with Task.done_tasks.map { |t|   JSON(t.content) }
+      else 
+        respond_with Task.undone_tasks.map { |t|   { :id => t.id, 
+                                                     :content => t.content,
+                                                     :done => t.done 
+                                                    } 
+                                           }
     end
   end
 
   def create
     task = Task.new :content => params[:content], :done => params[:done]
     if task.save
-      render :text => "task saved"
+      puts task.id
+      render :text => { :id => task.id }.to_json 
     else
+      puts task.errors.to_json
       render :status => 400, :text => task.errors.to_json
     end
   end
@@ -21,7 +29,7 @@ class TasksController < ApplicationController
     if task = Task.where(:id => params[:id]).first
       task.update_attributes params
       if task.save
-        render :text => "task updated"
+        render :text => { :id => task.id }.to_json 
       else
         render :status => 400, :text => task.errors.to_json
       end
@@ -33,7 +41,7 @@ class TasksController < ApplicationController
   def destroy
     begin
       Task.destroy(params[:id])
-      render :text => "task deleted"
+      render :text => nil 
     rescue
       render :status => 400, :text => $! 
     end

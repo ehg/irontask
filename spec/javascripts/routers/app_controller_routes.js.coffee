@@ -1,4 +1,4 @@
-describe "task controller routes", ->
+describe "Sign up routes", ->
 	controller = new Privydo.Routers.App
 
 	beforeEach ->
