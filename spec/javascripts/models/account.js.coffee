@@ -1,5 +1,4 @@
 describe "Account", ->
-	ajaxCall = (param) -> jQuery.ajax.mostRecentCall.args[0][param]
 	it "should exhibit attributes", ->
 		account = new Privydo.Models.Account ( {username : 'test', password : 'testing'} )
 		expect(account.get('username')).toEqual('test')
