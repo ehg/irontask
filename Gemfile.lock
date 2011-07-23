@@ -185,6 +185,7 @@ DEPENDENCIES
   coffee-script
   cucumber-rails
   database_cleaner
+  ejs
   haml
   jasmine
   jasminerice

@@ -16,6 +16,7 @@ gem 'haml'
 gem 'jquery-rails'
 gem 'warden'
 gem 'rails_warden'
+gem 'ejs'
 
 group :cucumber, :development, :test do
   gem 'awesome_print', :require => 'ap'
