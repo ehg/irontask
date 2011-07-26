@@ -6,7 +6,7 @@ class Privydo.Views.Context extends Backbone.View
 
 	events :
 		'dblclick div.context'	: 'edit'
-		'click div.context' 		: 'select'
+		'click a.context' 		: 'select'
 		'keypress input'				: 'update_on_enter'
 
 	initialize: ->
