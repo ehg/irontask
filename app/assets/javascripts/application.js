@@ -9,7 +9,6 @@
 //= require jquery-ui
 //= require underscore
 //= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
+//= require encryption
 //= require backbone/privydo
 //= require_tree .

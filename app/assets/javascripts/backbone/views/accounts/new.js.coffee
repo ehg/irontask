@@ -17,10 +17,13 @@ class Privydo.Views.Signup extends Backbone.View
 			return false
 		#password length check
 		#move to somewhere less lame
+		contexts = new Privydo.Models.Contexts [{text: 'Home', order: 0, selected: true},{text: 'Work', order: 1, selected: false}]
 		password = Privydo.Models.Account.hash(plaintext) if plaintext
-		this.model.save { username : this.$('[name=username]').val(), password : password },
-			success: (model, response) ->
-				# go to tasks page with ?new=1
+		metadata = encrypt JSON.stringify({ contexts : contexts.toJSON()}), password
+	
+		this.model.save { username : this.$('[name=username]').val(), password : password, metadata: metadata },
+			success: (model, response) =>
+				window.location.replace("/user_session/new")
 			error: (model, response) ->
 				new Privydo.Views.Error({message: response.responseText or response})
 		return false

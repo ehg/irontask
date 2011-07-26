@@ -17,8 +17,13 @@ class Privydo.Views.TaskPage extends Backbone.View
 				$(ui.draggable).fadeOut(1000)
 				model = $(ui.draggable).data("model")
 				$(ui.draggable).remove()
-				@collection.remove(model)
-				model.destroy()
+				if model instanceof Privydo.Models.Task
+					@collection.remove(model)
+					model.destroy()
+				if model instanceof Privydo.Models.Context
+					if @options.contexts.length > 1
+						@options.contexts.remove(model)
+						@options.contexts.at(0).save {}
 		)
 
 
@@ -32,6 +37,13 @@ class Privydo.Views.TaskPage extends Backbone.View
 		text:	text
 		done: false
 		date: date
+		contexts: @contexts_array()
+
+	contexts_array: (contexts) ->
+		console.log  @options.contexts.selected()
+		_.map @options.contexts.selected(), (c) ->
+			c.get('text')
+
 
 	extract_date: ->
 		val = @input.val()

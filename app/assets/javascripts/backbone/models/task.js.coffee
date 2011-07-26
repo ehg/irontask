@@ -1,7 +1,9 @@
 #= require pidcrypt/aes_cbc
+#= require cookies
 class Privydo.Models.Task extends Backbone.Model
 	defaults:
-		'done' : false
+		'done' 			: false
+		'contexts'	:	['Home']
 	
 	url: ->
 		if @get('id') > 0 then "/tasks/#{@get 'id'}" else '/tasks'
@@ -25,6 +27,7 @@ class Privydo.Models.Task extends Backbone.Model
 			text: content.text
 			date: if content.date? then new Date(content.date) else null
 			done: res.done
+			contexts: content.contexts
 		}
 
 	guid: ->
@@ -62,9 +65,10 @@ class Privydo.Models.Task extends Backbone.Model
 	content = (m) ->
 		'text' : m.get('text')
 		'date' : m.get('date')
+		'contexts': m.get('contexts')
 
 	key = ->
-		"secretpassword"
+		getCookieValue 'key'
 
 	encrypt = (plaintext) ->
 		aes = new pidCrypt.AES.CBC()
@@ -84,7 +88,7 @@ class Privydo.Models.Task extends Backbone.Model
 class Privydo.Models.Tasks extends Backbone.Collection
 	model: Privydo.Models.Task
 	url: '/tasks'
-	
+
 	comparator: (task) ->
 		date = task.get('date')
 		return date if date
@@ -95,4 +99,11 @@ class Privydo.Models.Tasks extends Backbone.Collection
 			Privydo.Models.Task.parsal(o)
 		)
 
+	filterWithContexts: (contexts) ->
+		ids = _.map contexts, (c) ->
+			c.get('text')
+		_(@models.filter (t) ->
+			#_.isEqual t.get('contexts').sort(), ids.sort()
+			_.intersect(t.get('contexts'), ids).length > 0
+		)
 
