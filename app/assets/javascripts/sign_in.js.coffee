@@ -1,7 +1,9 @@
 #= require pidcrypt/sha256
+#= require cookies
 $ ->
 	$('#login').submit ->
-		$('#password').val( pidCrypt.SHA256 $('#password').val() )
-		alert $('#password').val()
+		password = pidCrypt.SHA256 $('#password').val()
+		writeSessionCookie 'key', password
+		$('#password').val password
 
 		

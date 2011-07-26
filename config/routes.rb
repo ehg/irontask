@@ -1,7 +1,7 @@
 Privydo::Application.routes.draw do
 
       resource :account, :controller => "users"
-      resources :users
+      resources :users, {:id => /.*/}
       resource :user_session, :as => "session"
       
       resources :tasks

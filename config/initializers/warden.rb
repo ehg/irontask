@@ -4,12 +4,13 @@ Rails.configuration.middleware.use RailsWarden::Manager do |manager|
 end
 
 class Warden::SessionSerializer
-  def serialize(user)
-    user.id
+  def serialize(record)
+    [record.class, record.id]
   end
 
-  def deserialize(key)
-    User.criteria.id(key).first
+  def deserialize(keys)
+    klass, id = keys
+    klass.find(:first, :conditions => { :id => id })
   end
 end
 

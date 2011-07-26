@@ -1,6 +1,8 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+  has_many :tasks
+
   validates_presence_of :username, :password
   validates :username, :length => {:maximum => 50}, :uniqueness => true
   before_save :generate_salt

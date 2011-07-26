@@ -5,12 +5,33 @@ class UsersController < ApplicationController
   end
   
   def create
-      @user = User.new(params[:user])
-      if @user.save      
-        render :status => 200, :text => "User created"
-      else
-        render :status => 400, :text => @user.errors.to_json 
-      end
+    @user = User.new(params[:user])
+    
+    if @user.save      
+      render :status => 200, :json => @user
+    else
+      render :status => 400, :json => @user.errors 
     end
+  end
   
+  def show
+    user = User.where(:username => params[:id]).first
+    
+    if user
+      render :status => 200, :json => { :metadata => user.metadata }
+    else
+      render :status => 400, :json => { :error => 'unknown user' }
+    end
+  end
+
+  def update
+    user = User.where(:username => params[:id]).first
+     if user
+       user.metadata = params[:metadata]
+       user.save!
+       render :status => 200, :json => { :success => 'ok' }
+     else
+      render :status => 400, :json => { :error => 'unknown user' }
+     end
+  end
 end

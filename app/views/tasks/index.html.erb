@@ -1,12 +1,17 @@
 <%= link_to 'Sign out', session_path, :method => :delete %>
 <script type="text/javascript">
     $(function() {
+	  window.username = '<%= URI.escape user.username %>'
       window.app = new Privydo.Routers.TasksRouter
       Backbone.history.start();
       });
 </script>
-
+<div id='contexts'>
+	<ul id='contexts-list'></ul>
+	<img src='/assets/add.png' id='add-context'>
+</div>
 <div id='app'>
+
 	<div id='create-task'></div>
 	<div id='tasks'>
 		<ul id='task-list'></ul>
