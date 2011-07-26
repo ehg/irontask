@@ -176,3 +176,30 @@ html {
   {
     vertical-align: middle;
   }
+
+
+#contexts {
+  list-style-type: none;
+  z-index: 4000;
+}
+
+#contexts li {
+  float: left;
+  padding: 4px;
+}
+
+#contexts li.selected {
+  color: blue;
+}
+
+#contexts .editing .display,
+#contexts .edit {
+  display: none;
+}
+  #contexts .editing .edit {
+    display: block;
+  }
+
+  #contexts .editing input {
+    width: 70px;
+  }

@@ -6,4 +6,5 @@
 #= require backbone_datalink
 #= require backbone/privydo
 #= require sinon-1.1.1
+#= require encryption
 #= require_tree ./
