@@ -7,16 +7,15 @@ class Privydo.Models.Context	extends Backbone.Model
 		'selected' 	: false
 
 	initialize: ->
-		console.log getCookieValue('key')
 		if @isNew()
 			@set {id : @guid()}
 
 	validate: (attrs) ->
-		#return "invalid guid" unless or validGuid attrs.id
-		#return "invalid text" unless attrs.text? and attrs.text.length > 0
-		#return "text too long" unless attrs.text? and attrs.text.length < 10
-		#return "no order" unless attrs.order? and _.isNumber attrs.order
-		#return "no selection" if attrs.selected? and attrs.selected == null
+		return "invalid guid" if 'id' of attrs and !validGuid(attrs.id)
+		return "invalid text" if 'text' of attrs and attrs.text.length < 1
+		return "text too long" if 'text' of attrs and attrs.text.length > 10
+		return "no order" if 'order' of attrs and !_.isNumber(attrs.order)
+		return "no selection" if 'selected' of attrs and attrs.selected == null
 
 	validGuid = (guid) ->
 		return false unless guid?
@@ -68,6 +67,10 @@ class Privydo.Models.Contexts extends Backbone.Collection
 		_.map(object.contexts, (c) ->
 			{ id : c.id, order : c.order, selected : c.selected, text : c.text }
 		)
+
+	selectSingle: (context) ->
+		@each (c) ->
+			c.set {'selected' : c.id == context.id}
 
 	selected: ->
 		@filter (m) ->

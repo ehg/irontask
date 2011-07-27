@@ -52,6 +52,7 @@ describe "Context model", ->
 		expect(context.id).toBeDefined()
 
 	it "should save the whole collections object to the server", ->
+		# TODO: test we're saving encrypted collection?
 		@contexts = new Privydo.Models.Contexts
 		@contexts.add new Privydo.Models.Context { text : 'At the G', order : 3, selected : false }
 		@contexts.add new Privydo.Models.Context { text : 'Biscuit', order : 0, selected : false }
@@ -59,9 +60,7 @@ describe "Context model", ->
 		@contexts.add new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
 		@contexts.add @context
 
-		console.log @context.save { text : 'At the G', order : 3, selected : false },
-			error: (e,r) ->
-				console.log r
+		console.log @context.save { text : 'At the G', order : 3, selected : false }
 		expect(@eventSpy.called).toBeFalsy()
 
 describe "Context collection", ->
@@ -74,21 +73,24 @@ describe "Context collection", ->
 			@c4 = new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
 
 
-			it "should order the models by order", ->
-				@contexts.add [@c1, @c2, @c3, @c4]
-				expect(@contexts.at 0).toBe @c2
-				expect(@contexts.at 1).toBe @c3
-				expect(@contexts.at 2).toBe @c4
-				expect(@contexts.at 3).toBe @c1
+		it "should order the models by order", ->
+			@contexts.add [@c1, @c2, @c3, @c4]
+			expect(@contexts.at 0).toBe @c2
+			expect(@contexts.at 1).toBe @c3
+			expect(@contexts.at 2).toBe @c4
+			expect(@contexts.at 3).toBe @c1
 
 	describe "Server", ->
 		beforeEach ->
+			window.username = 'chris'
+			writeSessionCookie 'key', 'secret'
 			@server = sinon.fakeServer.create()
 			@server.respondWith 'GET', '/users/chris', @validResponse @fixtures.MetaData.valid
 			@contexts = new Privydo.Models.Contexts
 
 		afterEach ->
 			@server.restore()
+			deleteCookie 'key'
 
 		it "should make the correct request", ->
 			@contexts.fetch()
