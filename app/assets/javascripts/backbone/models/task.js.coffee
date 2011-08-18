@@ -16,9 +16,7 @@ class Privydo.Models.Task extends Backbone.Model
 		return "no contexts specified" if 'contexts' of attrs and (!_.isArray(attrs.contexts) or attrs.contexts.length < 1)
 	
 	@parsal: (res) ->
-		console.log res
 		plaintext = res.content#decrypt res.content, getCookieValue 'key'
-		console.log plaintext
 		content = $.parseJSON(plaintext)
 		return if content is null
 		object =

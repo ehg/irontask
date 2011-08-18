@@ -1,3 +1,4 @@
+#=require singleclick
 class Privydo.Views.Context extends Backbone.View
 	template: JST['backbone/templates/tasks/context']
 	tagName: 'li'
@@ -5,8 +6,8 @@ class Privydo.Views.Context extends Backbone.View
 	taskCollection: null
 
 	events :
-		'dblclick div.context'	: 'edit'
-		'click a.context' 		: 'select'
+		'doubleclick a.context'	: 'edit'
+		'singleclick a.context' 		: 'select'
 		'keypress input'				: 'update_on_enter'
 
 	initialize: ->
@@ -15,20 +16,8 @@ class Privydo.Views.Context extends Backbone.View
 	render: ->
 		@setContent()
 		$(@el).addClass 'selected' if @model.get('selected') == true
-		$(@el).draggable({revert: true},
-			start: =>
-				@delegateEvents([])
-			stop: =>
-				@delegateEvents()
-		).data('model', @model)
-
-		$(@el).droppable
-			drop: (event, ui) =>
-				draggedModel = $(ui.draggable).data('model')
-				draggedOrder = draggedModel.get('order')
-				droppedOrder = @model.get('order')
-				draggedModel.set { order : droppedOrder }
-				@model.save { order : draggedOrder }
+		$(@el).attr 'id', "context_#{@model.get 'order'}"
+		$(@el).data 'model', @model
 		this
 
 	setContent: ->
@@ -40,6 +29,7 @@ class Privydo.Views.Context extends Backbone.View
 		@edit() unless @model.get('text')?
 
 	edit: ->
+		console.log 'EDIT'
 		console.log @model
 		$(@el).addClass 'editing'
 		@input.focus()

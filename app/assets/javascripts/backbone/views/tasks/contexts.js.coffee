@@ -7,7 +7,16 @@ class Privydo.Views.Contexts extends Backbone.View
 
 	initialize: ->
 		_.bindAll @, 'addContexts', 'addContext', 'reorder', 'addNew'
-		#@$('#contexts-list').sortable()
+		@$('#contexts-list').sortable
+			update: (event, ui) =>
+				contexts = @$('#contexts-list').find('li')
+				for el, i in contexts
+					model = $(el).data('model')
+					console.log model
+					if (contexts.length - 1) != i
+						model.set {order: i}, {silent : true}
+					else
+						model.save {order: i}
 
 	render: ->
 
