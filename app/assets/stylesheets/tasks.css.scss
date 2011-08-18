@@ -61,6 +61,14 @@ html {
     line-height: 1;
   }
 
+  #app h2 {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 0 10px 0;
+    line-height: 1;
+  }
+
+
 #create-task {
   position: relative;
 }
@@ -182,6 +190,9 @@ html {
   padding:0;
   line-height:normal;
   position: relative;
+  left: 130px;
+  top: 50px;
+  float: left;
 }
 
 ul#contexts-list {
@@ -192,13 +203,10 @@ ul#contexts-list {
 	display:block;
 	height:65px;
 	font-size:14px;
-	font-weight:bold;
-	background:url("/assets/nav_up.jpg") repeat-x top left;
 }
 
 #contexts-list li {
   display:block;
-  float: left;
   padding: 4px;
   margin:0;
   padding:0;
@@ -207,18 +215,15 @@ ul#contexts-list {
 
 #contexts-list li a {
   display:block;
-  float:left;
   color:#888888;
   text-decoration:none;
-  font-weight:bold;
-  padding:20px 40px 0 40px;
-  height:40px;
+  height:25px;
   margin:0;
 }
 
 #contexts-list li.selected {
-  background: url("/assets/down.jpg") no-repeat top center;	
   color:#484949;
+  font-weight:bold;
 }
 
 #contexts .editing .display,
@@ -233,12 +238,6 @@ ul#contexts-list {
     width: 70px;
   }
 
-#add-context {
-  position: absolute;
-  right: 0px;
-  top: 10px;
-  z-index: 2001
-}
 
 
 .overdue {
