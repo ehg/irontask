@@ -8,27 +8,27 @@ class Privydo.Models.Task extends Backbone.Model
 	url: ->
 		if @get('id') > 0 then "/tasks/#{@get 'id'}" else '/tasks'
 
-	initialize: ->
-		#@set {'id' : @guid()} if @isNew?
-
 	validate: (attrs) ->
-		if attrs.text?
-			return "no text" unless attrs.text.length > 0
-		if attrs.done?
-			return "no done" unless attrs.done in [true, false]
-		if attrs.date?
-			return "invalid date" unless attrs.date.getTime and !isNaN attrs.date.getTime() 
+		return "no text" if 'text' of attrs and attrs.text and attrs.text.length < 1
+		return "text too long" if 'text' of attrs and attrs.text and attrs.text.length > 60
+		return "no done" if 'done' of attrs and !(attrs.done in [true, false])
+		return "invalid date" if 'date' of attrs and !_.isDate(attrs.date)
+		return "no contexts specified" if 'contexts' of attrs and (!_.isArray(attrs.contexts) or attrs.contexts.length < 1)
 	
 	@parsal: (res) ->
-		plaintext = decrypt(res.content)
+		console.log res
+		plaintext = decrypt res.content, getCookieValue 'key'
+		console.log plaintext
 		content = $.parseJSON(plaintext)
-		{
+		return if content is null
+		object =
 			id : res.id
 			text: content.text
 			date: if content.date? then new Date(content.date) else null
 			done: res.done
 			contexts: content.contexts
-		}
+		delete object.date if object.date is null
+		object
 
 	guid: ->
 		"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->
@@ -56,27 +56,16 @@ class Privydo.Models.Task extends Backbone.Model
 		if not params.data and model and (method == "create" or method == "update")
 			params.contentType = "application/json"
 			params.data =
-				'content' : encrypt JSON.stringify(content(model))
+				'content' : encrypt JSON.stringify(content(model)), getCookieValue 'key'
 				'done' : model.get('done')
 			params.data = JSON.stringify(params.data)
 		params.processData = false if params.type != "GET"
-		response = $.ajax params
+		$.ajax params
 
 	content = (m) ->
 		'text' : m.get('text')
 		'date' : m.get('date')
 		'contexts': m.get('contexts')
-
-	key = ->
-		getCookieValue 'key'
-
-	encrypt = (plaintext) ->
-		aes = new pidCrypt.AES.CBC()
-		aes.encryptText plaintext, key, {nBits: 256}
-
-	decrypt = (ciphertext) ->
-		aes = new pidCrypt.AES.CBC()
-		aes.decryptText ciphertext, key, {nBits: 256}
 
 	getUrl = (object) ->
 		return null  unless (object and object.url)

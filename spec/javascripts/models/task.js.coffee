@@ -1,29 +1,59 @@
 describe "Task", ->
 	describe "validation", ->
-		task = null
-		eventSpy = null
-	
+		taskAttributes =
+			text 			: 'A test task'
+			done 			: false
+			date 			: new Date(2011, 12, 25, 12, 0, 0, 0)
+			contexts	: ['Home', 'Work']
+		
 		beforeEach ->
-			task = new Privydo.Models.Task
-			#task.set {text: 'A test task', dateDue: new Date(2011, 12, 25, 12, 0, 0, 0), done: false}
-			eventSpy = sinon.spy()
-			task.bind("error", eventSpy)
-	
+			@task = new Privydo.Models.Task
+			@eventSpy = sinon.spy()
+			@task.bind("error", @eventSpy)
+			@attrs = _.clone taskAttributes
+		
+		it "should be valid with valid attributes", ->
+			@task.set @attrs
+			expect(@eventSpy.called).toBeFalsy()
+
 		it "should not be valid without text", ->
-			task.save({done: false})
-			expect(eventSpy).toHaveBeenCalledOnce()
-			expect(eventSpy).toHaveBeenCalledWith( task, "no text")
-	
-	
+			@attrs.text = ''
+			@task.set @attrs
+			expect(@eventSpy).toHaveBeenCalledOnce()
+			expect(@eventSpy).toHaveBeenCalledWith( @task, "no text")
+
+		it "should not be valid if the text is too long", ->
+			@attrs.text = 'extremely long taskextremely long taskextremely long taskextremely long taskextremely long task'
+			@task.set @attrs
+			expect(@eventSpy).toHaveBeenCalledOnce()
+			expect(@eventSpy).toHaveBeenCalledWith( @task, "text too long")
+
 		it "should not be valid without done being set", ->
-			task.save({text: 'A test task'})
-			expect(eventSpy).toHaveBeenCalledOnce()
-			expect(eventSpy).toHaveBeenCalledWith( task, "no done")
+			@attrs.done = 'nonsensical'
+			@task.set @attrs
+			expect(@eventSpy).toHaveBeenCalledOnce()
+			expect(@eventSpy).toHaveBeenCalledWith( @task, "no done")
 
 		it "should not be valid if the date is invalid", ->
-			task.save({text: "A task with a date", date: "not a date", done: false})
-			expect(eventSpy).toHaveBeenCalledOnce()
-			expect(eventSpy).toHaveBeenCalledWith( task, "invalid date")
+			@attrs.date = 'NOT A DATE'
+			@task.set @attrs
+			expect(@eventSpy).toHaveBeenCalledOnce()
+			expect(@eventSpy).toHaveBeenCalledWith( @task, "invalid date")
+
+		it "should be valid without a date", ->
+			delete @attrs.date
+			@task.set @attrs
+			expect(@eventSpy.called).toBeFalsy()
+
+		it "should not be valid without at least one context", ->
+			@attrs.contexts = []
+			@task.set @attrs
+			expect(@eventSpy).toHaveBeenCalledOnce()
+			expect(@eventSpy).toHaveBeenCalledWith( @task, "no contexts specified" )
+
+		xit "should not be valid without existing contexts", ->
+			# more of an integration test?
+
 
 describe "Task Collection", ->
 	[taskStub, model, tasks, task1, task2, task3, task4] = [null, null, null, null, null, null, null]
@@ -61,12 +91,14 @@ describe "Task Collection", ->
 
 		beforeEach ->
 			@server = sinon.fakeServer.create()
-			@server.respondWith 'GET', '/tasks', @validResponse(@fixtures.Tasks.valid)
+			@server.respondWith 'GET', '/tasks', @validResponse @fixtures.Tasks.valid.tasks
 			@tasks = new Privydo.Models.Tasks
+			writeSessionCookie 'key', 'secret'
 
 
 		afterEach ->
 			@server.restore()
+			deleteCookie 'key'
 
 		it "should make the correct request", ->
 			@tasks.fetch()
@@ -75,8 +107,8 @@ describe "Task Collection", ->
 			expect(@server.requests[0].url).toEqual('/tasks')
 
 		it "should parse todos from the response", ->
-			@tasks.fetch({success: (error, resp) -> console.log resp.response.tasks})
+			@tasks.fetch()
 			@server.respond()
-			expect(@tasks.length).toEqual(@fixtures.Tasks.valid.response.tasks.length)
-			expect(@tasks.get(1).get('text')).toEqual(@fixtures.Tasks.valid.response.tasks[0].text)
+			expect(@tasks.length).toEqual(@fixtures.Tasks.valid.tasks.length)
+			expect(@tasks.at(0).get('text')).toEqual('test text')
 
