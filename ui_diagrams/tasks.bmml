@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="1344" measuredH="778" mockupW="1312" mockupH="768">
+<mockup version="1.0" skin="sketch" measuredW="1056" measuredH="778" mockupW="1024" mockupH="768">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="32" y="10" w="1024" h="768" measuredW="100" measuredH="70" zOrder="0" locked="true" isInGroup="-1">
       <controlProperties>
@@ -11,7 +11,7 @@
         <color>15658734</color>
       </controlProperties>
     </control>
-    <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="147" y="177" w="784" h="536" measuredW="460" measuredH="156" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="219" y="177" w="634" h="536" measuredW="460" measuredH="156" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
         <borderStyle>none</borderStyle>
@@ -27,7 +27,7 @@
         <text>privydo</text>
       </controlProperties>
     </control>
-    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextInput" x="147" y="148" w="784" h="-1" measuredW="109" measuredH="29" zOrder="4" locked="false" isInGroup="-1">
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextInput" x="219" y="148" w="634" h="-1" measuredW="109" measuredH="29" zOrder="4" locked="false" isInGroup="-1">
       <controlProperties>
         <color>16777215</color>
         <text>Enter%20new%20task</text>
@@ -38,75 +38,32 @@
         <text>Home%2C%20Help%2C%20About%20%7C%20LOGOUT</text>
       </controlProperties>
     </control>
-    <control controlID="13" controlTypeID="com.balsamiq.mockups::StickyNote" x="615" y="323" w="156" h="70" measuredW="109" measuredH="123" zOrder="8" locked="false" isInGroup="-1">
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::StickyNote" x="687" y="323" w="156" h="70" measuredW="109" measuredH="123" zOrder="8" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Shows%20on%20mouse%20over</text>
       </controlProperties>
     </control>
-    <control controlID="14" controlTypeID="com.balsamiq.mockups::StickyNote" x="1075" y="457" w="269" h="110" measuredW="109" measuredH="123" zOrder="9" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Text%20changes%20date%0AClicking%20icon%20brings%20up%20repeat%20dialog</text>
-      </controlProperties>
-    </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::Arrow" x="895" y="316" w="233" h="20" measuredW="150" measuredH="100" zOrder="11" locked="false" isInGroup="-1">
-      <controlProperties>
-        <color>13421772</color>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="17" controlTypeID="__group__" x="794" y="298" w="111" h="31" measuredW="111" measuredH="31" zOrder="10" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="111" h="31" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="17">
-          <controlProperties>
-            <backgroundAlpha>0</backgroundAlpha>
-            <borderStyle>roundedDotted</borderStyle>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::Icon" x="81" y="3" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="1" locked="false" isInGroup="17">
-          <controlProperties>
-            <icon>ReloadIcon%7Csmall</icon>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="19" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="1154" y="348" w="-1" h="-1" measuredW="112" measuredH="92" zOrder="13" locked="false" isInGroup="-1">
-      <controlProperties>
-        <size>12</size>
-        <text>%28o%29%20Don%27t%20repeat%0A%28%20%29%20Repeat%20weekly%0A%28%20%29%20Repeat%20monthly%0A%28%20%29%20Repeat%20yearly</text>
-      </controlProperties>
-    </control>
-    <control controlID="20" controlTypeID="com.balsamiq.mockups::Canvas" x="1134" y="318" w="153" h="139" measuredW="100" measuredH="70" zOrder="12" locked="false" isInGroup="-1"/>
-    <control controlID="21" controlTypeID="com.balsamiq.mockups::Label" x="1144" y="323" w="-1" h="-1" measuredW="119" measuredH="25" zOrder="14" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Choose%20repetition%3A</text>
-      </controlProperties>
-    </control>
-    <control controlID="22" controlTypeID="com.balsamiq.mockups::ButtonBar" x="225" y="102" w="-1" h="-1" measuredW="351" measuredH="31" zOrder="15" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Home%2C%20Office%2C%20US%20Embassy%2C%20New%20Jersey</text>
-      </controlProperties>
-    </control>
-    <control controlID="23" controlTypeID="com.balsamiq.mockups::SubTitle" x="147" y="102" w="-1" h="-1" measuredW="72" measuredH="29" zOrder="16" locked="false" isInGroup="-1">
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::SubTitle" x="77" y="147" w="-1" h="-1" measuredW="80" measuredH="29" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <size>16</size>
-        <text>Context%3A</text>
+        <text>Contexts%3A</text>
       </controlProperties>
     </control>
-    <control controlID="24" controlTypeID="com.balsamiq.mockups::Icon" x="591" y="105" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="17" locked="false" isInGroup="-1">
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Icon" x="179" y="150" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>CircledPlusIcon%7Csmall</icon>
       </controlProperties>
     </control>
-    <control controlID="28" controlTypeID="com.balsamiq.mockups::IconLabel" x="816" y="722" w="-1" h="-1" measuredW="228" measuredH="48" zOrder="7" locked="false" isInGroup="-1">
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::IconLabel" x="864" y="189" w="-1" h="-1" measuredW="177" measuredH="70" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
         <icon>TrashIcon%7Clarge</icon>
-        <labelPosition>left</labelPosition>
+        <labelPosition>bottom</labelPosition>
         <size>11</size>
         <text>Drag%20stuff%20you%20want%20deleted%20here</text>
       </controlProperties>
     </control>
-    <control controlID="29" controlTypeID="__group__" x="630" y="297" w="151" h="31" measuredW="151" measuredH="31" zOrder="6" locked="false" isInGroup="-1">
+    <control controlID="29" controlTypeID="__group__" x="556" y="297" w="151" h="31" measuredW="151" measuredH="31" zOrder="6" locked="false" isInGroup="-1">
       <groupChildrenDescriptors>
         <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="151" h="31" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="29">
           <controlProperties>
@@ -133,9 +90,21 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="30" controlTypeID="com.balsamiq.mockups::Link" x="149" y="718" w="-1" h="-1" measuredW="108" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::Link" x="898" y="272" w="-1" h="-1" measuredW="108" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Show%20done%20tasks</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Canvas" x="732" y="296" w="111" h="31" measuredW="100" measuredH="70" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0</backgroundAlpha>
+        <borderStyle>roundedDotted</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::List" x="77" y="182" w="-1" h="-1" measuredW="100" measuredH="126" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <text>Home%0AWork%0ANew%20Jersey%0AUS%20Embassy</text>
       </controlProperties>
     </control>
   </controls>

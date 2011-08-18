@@ -6,9 +6,13 @@ class Privydo.Views.TaskPage extends Backbone.View
 		"keypress #add_task" : "add_on_enter"
 
 	initialize: ->
+		@bind 'error', @error
 		@render()
 		@input = @$("#add_task")
 	
+	error: (model, col) ->
+		new Privydo.Views.Error {message: col}
+
 	render: ->
 		$(@el).prepend @template
 		$('#bin').droppable(
@@ -30,7 +34,11 @@ class Privydo.Views.TaskPage extends Backbone.View
 	add_on_enter: (e) ->
 		return unless e.keyCode == 13
 		[date, text] = @extract_date()
-		task = @collection.create @new_attributes(date, text)
+		attrs = @new_attributes(date, text)
+		delete attrs.date unless date
+		task = @collection.create attrs,
+			error: @error
+		console.log task
 		@input.val ''
 
 	new_attributes: (date, text) ->

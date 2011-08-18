@@ -239,3 +239,17 @@ ul#contexts-list {
   top: 10px;
   z-index: 2001
 }
+
+
+.overdue {
+  color: red;
+  font-weight: bold;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.today {
+  font-weight: bold;
+}

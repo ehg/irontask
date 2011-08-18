@@ -22,9 +22,6 @@ class Privydo.Views.Context extends Backbone.View
 				@delegateEvents()
 		).data('model', @model)
 
-		console.log "MODEL"
-		console.log @model
-
 		$(@el).droppable
 			drop: (event, ui) =>
 				draggedModel = $(ui.draggable).data('model')
@@ -59,16 +56,16 @@ class Privydo.Views.Context extends Backbone.View
 	update_on_enter: (e) ->
 		@close() if e.keyCode == 13
 
-	select: =>
-		if $(@el).is '.selected'
+	select: (e) =>
+		if $(@el).is '.selected' #and e.ctrlKey == true
+			console.log 'deselect'
 			if $('#contexts').find('.selected').length > 1
-				@model.save { selected : false, error: @error }
+				@model.save { selected : false }
 				@options.taskList.setSelectedContexts @model.collection.selected()
 				$(@el).removeClass 'selected'
 		else
-			@model.save { selected : true, error: @error }
+			@model.collection.selectSingle @model unless e.ctrlKey == true
+			@model.save { selected : true }
 			@options.taskList.setSelectedContexts @model.collection.selected()
 			$(@el).addClass 'selected'
 
-	error: (e, r) ->
-		console.log r

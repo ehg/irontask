@@ -12,14 +12,12 @@ beforeEach ->
 				'tasks' 	: [
 					{
 						'id' 		: '1'
-						'text'	: 'Clean office'
-						'date'	: new Date(2011, 7, 18)
+						'content' : 'U2FsdGVkX18QQL+ITiM40Pp77t5RJWo/KM+m9I0JA6YiNzK2DEtxIoJ1aQ1wEMrgcx2395VQm9zv2+MjNzMlrb5JBOAQmIwh8Ub7afKiVKQ='
 						'done'	: false
 					}
 					{
 						'id' 		: '2'
-						'text'	: 'Clean room'
-						'date'	: new Date(2011, 8, 18)
+						'content' : 'U2FsdGVkX18QQL+ITiM40Pp77t5RJWo/KM+m9I0JA6YiNzK2DEtxIoJ1aQ1wEMrgcx2395VQm9zv2+MjNzMlrb5JBOAQmIwh8Ub7afKiVKQ='
 						'done'	: false
 					}
 				]

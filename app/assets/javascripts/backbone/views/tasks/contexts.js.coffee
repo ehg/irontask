@@ -7,6 +7,7 @@ class Privydo.Views.Contexts extends Backbone.View
 
 	initialize: ->
 		_.bindAll @, 'addContexts', 'addContext', 'reorder', 'addNew'
+		#@$('#contexts-list').sortable()
 
 	render: ->
 
@@ -23,7 +24,7 @@ class Privydo.Views.Contexts extends Backbone.View
 		@$('#contexts-list').append view.render().el
 
 	addNew: ->
-		model = new Privydo.Models.Context 
+		model = new Privydo.Models.Context
 		@collection.add model
 
 
