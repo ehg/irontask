@@ -17,7 +17,7 @@ class Privydo.Models.Task extends Backbone.Model
 	
 	@parsal: (res) ->
 		console.log res
-		plaintext = decrypt res.content, getCookieValue 'key'
+		plaintext = res.content#decrypt res.content, getCookieValue 'key'
 		console.log plaintext
 		content = $.parseJSON(plaintext)
 		return if content is null
@@ -56,7 +56,7 @@ class Privydo.Models.Task extends Backbone.Model
 		if not params.data and model and (method == "create" or method == "update")
 			params.contentType = "application/json"
 			params.data =
-				'content' : encrypt JSON.stringify(content(model)), getCookieValue 'key'
+				'content' : JSON.stringify(content(model)) #encrypt JSON.stringify(content(model)), getCookieValue 'key'
 				'done' : model.get('done')
 			params.data = JSON.stringify(params.data)
 		params.processData = false if params.type != "GET"
@@ -81,7 +81,7 @@ class Privydo.Models.Tasks extends Backbone.Collection
 	comparator: (task) ->
 		date = task.get('date')
 		return date if date
-		new Date(2999, 5, 25)	
+		new Date(2999, 5, 25)
 
 	parse: (res) ->
 		_.map(res, (o) ->
