@@ -1,9 +1,10 @@
 = form_tag session_path, :id => 'login' do
+  = hidden_field_tag :password
   %p
     = label_tag :username, "Username or Email Address"
     = text_field_tag :username, params[:username]
   %p
-    = label_tag :password
-    = password_field_tag :password
+    = label_tag :input_password
+    %input{ :id => 'input_password', :type => 'password'}
   %p
     = submit_tag "Sign in"

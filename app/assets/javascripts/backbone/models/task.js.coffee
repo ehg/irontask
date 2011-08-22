@@ -3,7 +3,7 @@
 class Privydo.Models.Task extends Backbone.Model
 	defaults:
 		'done' 			: false
-		'contexts'	:	['Home']
+		'order'			: -1
 	
 	url: ->
 		if @get('id') > 0 then "/tasks/#{@get 'id'}" else '/tasks'
@@ -23,6 +23,8 @@ class Privydo.Models.Task extends Backbone.Model
 			id : res.id
 			text: content.text
 			date: if content.date? then new Date(content.date) else null
+			doneDate: if content.doneDate? then new Date(content.doneDate) else null
+			order: content.order || -1
 			done: res.done
 			contexts: content.contexts
 		delete object.date if object.date is null
@@ -63,6 +65,8 @@ class Privydo.Models.Task extends Backbone.Model
 	content = (m) ->
 		'text' : m.get('text')
 		'date' : m.get('date')
+		'doneDate' : m.get('doneDate')
+		'order' : m.get 'order'
 		'contexts': m.get('contexts')
 
 	getUrl = (object) ->
@@ -77,18 +81,24 @@ class Privydo.Models.Tasks extends Backbone.Collection
 	url: '/tasks'
 
 	comparator: (task) ->
-		date = task.get('date')
-		return date if date
-		new Date(2999, 5, 25)
+		date = task.get('date') || new Date(2998,5,1)
+		order = task.get('order') || -1
+		return "#{date.getTime()}#{order}#{task.get 'text'}" 
 
 	parse: (res) ->
 		_.map(res, (o) ->
 			Privydo.Models.Task.parsal(o)
 		)
 
+	done: ->
+		@filter (task) -> task.get 'done' is true
+
+	notdone: ->
+		@filter (task) -> task.get 'done' is false
+
 	filterWithContexts: (contexts) ->
 		ids = _.map contexts, (c) ->
-			c.get('text')
+			c.get('id')
 		_(@models.filter (t) ->
 			#_.isEqual t.get('contexts').sort(), ids.sort()
 			_.intersect(t.get('contexts'), ids).length > 0

@@ -16,17 +16,17 @@ class Privydo.Views.Task extends Backbone.View
 		_.bindAll @, 'render'
 		@model.bind 'change', @render
 		$(@el).hover =>
-			@$('.task-menu').stop(false, true).fadeIn(200) unless $(@el).is('.editing_text') or $(@el).is('.editing_date') or $('.ui-draggable-dragging').length > 0
+			@$('.task-menu').stop(false, true).fadeIn(200) unless $(@el).is('.editing_text') or $(@el).is('.editing_date') or $('.ui-draggable-dragging').length > 0 or @model.get('done')
 		, =>
 			@$('.task-menu').stop(false,true).fadeOut(100)
-		
 
 	render: ->
 		$(@el).html(@template(@options.model.toJSON()))
-		$(@el).find('.task_text').draggable({ revert : true},
-		start: =>
-			@$('.task-menu').fadeOut(100)
-		).data("model", @model)
+		#$(@el).find('.task_text').draggable({ revert : true},
+		#start: =>
+		#	@$('.task-menu').fadeOut(100)
+		#).data("model", @model)
+		$(@el).data 'model', @model
 		@setContent()
 		this
 
@@ -39,9 +39,9 @@ class Privydo.Views.Task extends Backbone.View
 			@model.change()
 
 	setDone: =>
-		@model.save { done : true }
+		@model.save { done : true, doneDate : Date.today() }
 		console.log @model
-		@model.collection.remove @model
+		#@model.collection.remove @model
 
 	setContent: ->
 		[text, date] = [@model.get('text'), @model.get('date')]
@@ -56,6 +56,9 @@ class Privydo.Views.Task extends Backbone.View
 			@$('.task_date').text date_text
 
 			$(@el).addClass 'overdue' if date.compareTo(Date.today()) == -1
+		else
+			$(@el).addClass 'no-date'
+
 		@input_text = @$('.task-text-input')
 		@input_text.blur @close_text
 		@input_text.val text
@@ -64,9 +67,12 @@ class Privydo.Views.Task extends Backbone.View
 		@input_date.blur @close_date
 		@input_date.val date_text
 
-
+		if @model.get('done')
+			$(@el).addClass 'done-task'
+			@$('.task-menu').hide()
+			@$('.add_date').hide()
+	
 	edit_text: ->
-		console.log 'edit text'
 		$(@el).addClass 'editing_text'
 		@$('.task-menu').hide()
 		@input_text.focus()
@@ -77,7 +83,7 @@ class Privydo.Views.Task extends Backbone.View
 		@input_date.focus()
 
 	close_text: =>
-		console.log @model.save {text: @input_text.val()},
+		@model.save {text: @input_text.val()},
 			error: (model, response) ->
 				new Privydo.Views.Error({message: response.responseText or response})
 		$(@el).removeClass 'editing_text'

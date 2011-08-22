@@ -6,8 +6,8 @@ class Privydo.Views.Context extends Backbone.View
 	taskCollection: null
 
 	events :
-		'doubleclick a.context'	: 'edit'
-		'singleclick a.context' 		: 'select'
+		'doubleclick span.context'	: 'edit'
+		'singleclick span.context' 		: 'select'
 		'keypress input'				: 'update_on_enter'
 
 	initialize: ->
@@ -16,7 +16,6 @@ class Privydo.Views.Context extends Backbone.View
 	render: ->
 		@setContent()
 		$(@el).addClass 'selected' if @model.get('selected') == true
-		$(@el).attr 'id', "context_#{@model.get 'order'}"
 		$(@el).data 'model', @model
 		this
 
@@ -26,30 +25,29 @@ class Privydo.Views.Context extends Backbone.View
 		@input = @$('input')
 		@input.blur @close
 		@input.val @model.get 'text'
-		@edit() unless @model.get('text')?
+		(@edit() && @new = true) if @model.get('text') == ''
 
 	edit: ->
-		console.log 'EDIT'
-		console.log @model
 		$(@el).addClass 'editing'
 		@input.focus()
 
 	close: =>
-		console.log @model.id
-		@model.set {'order' : @maxOrder() + 1 } unless @model.has('order')
 		@model.save { text : @input.val() }
 		$(@el).removeClass 'editing'
-
-	maxOrder: ->
-		(@model.collection.max (c) -> c.get 'order' ).get('order')
+		if @new
+			@model.save {selected : true}
+			@model.collection.selectSingle @model
+			@options.taskList.setSelectedContexts @model.collection.selected()
+			@new = false
 
 	update_on_enter: (e) ->
 		@close() if e.keyCode == 13
 
 	select: (e) =>
-		if $(@el).is '.selected' #and e.ctrlKey == true
-			console.log 'deselect'
+		if $(@el).is('.selected') and e.ctrlKey == true
+			console.log 'selected'
 			if $('#contexts').find('.selected').length > 1
+				console.log 'nooo'
 				@model.save { selected : false }
 				@options.taskList.setSelectedContexts @model.collection.selected()
 				$(@el).removeClass 'selected'
@@ -58,4 +56,4 @@ class Privydo.Views.Context extends Backbone.View
 			@model.save { selected : true }
 			@options.taskList.setSelectedContexts @model.collection.selected()
 			$(@el).addClass 'selected'
-
+		return false

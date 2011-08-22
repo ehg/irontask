@@ -8,6 +8,7 @@ class Privydo.Views.Contexts extends Backbone.View
 	initialize: ->
 		_.bindAll @, 'addContexts', 'addContext', 'reorder', 'addNew'
 		@$('#contexts-list').sortable
+			distance: 15
 			update: (event, ui) =>
 				contexts = @$('#contexts-list').find('li')
 				for el, i in contexts
@@ -33,7 +34,7 @@ class Privydo.Views.Contexts extends Backbone.View
 		@$('#contexts-list').append view.render().el
 
 	addNew: ->
-		model = new Privydo.Models.Context
+		model = new Privydo.Models.Context {order : @collection.length, text : ''}
 		@collection.add model
 
 

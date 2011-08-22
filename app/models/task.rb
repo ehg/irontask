@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
   attr_accessible :content, :done
 
   def self.undone_tasks(user)
-    Task.where(:done => false, :user_id => user.id)
+    Task.all #Task.where(:done => false, :user_id => user.id)
   end
 
   def self.done_tasks(user)

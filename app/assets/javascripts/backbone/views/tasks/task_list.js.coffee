@@ -12,6 +12,19 @@ class Privydo.Views.TaskList extends Backbone.View
 
 	initialize: ->
 		_.bindAll(this, 'render', 'addTasks', 'addTask', 'change')
+		$('#task-list').sortable {}
+			start: (event, ui) =>
+				klass = $(ui.item).attr 'class'
+				console.log klass
+				$('#task-list').sortable('option', 'items', ".#{klass}")
+				$('#task-list').sortable('refresh')
+			update: (event, ui) =>
+				tasks = @$('li')
+				for el, i in tasks
+					model = $(el).data('model')
+					console.log model.get('text'), model
+					model.save {order: i}, {silent:true} if model?
+
 
 	render: ->
 		#@addTasks()
@@ -25,5 +38,7 @@ class Privydo.Views.TaskList extends Backbone.View
 		@collection.filterWithContexts(@selectedContexts).each(@addTask)
 
 	addTask: (task) ->
-		view = new Privydo.Views.Task {model: task}
-		$('#task-list').append(view.render().el)
+		doneDate = task.get('doneDate')
+		if (task.get('done') == false) or (task.get('done') is true and doneDate and doneDate.equals(Date.today()))
+			view = new Privydo.Views.Task {model: task}
+			$('#task-list').append(view.render().el)
