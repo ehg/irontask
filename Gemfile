@@ -5,7 +5,6 @@ gem 'rails', '3.1.0.rc6'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 
 # Asset template engines
 gem 'json'
@@ -30,4 +29,5 @@ group :cucumber, :development, :test do
   gem 'jasmine'
   gem 'jasminerice'
   gem "rails-backbone", :git => "git://github.com/codebrew/backbone-rails.git", :require => "backbone-rails"
+  gem 'sqlite3'
 end
