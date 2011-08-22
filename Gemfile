@@ -31,3 +31,6 @@ group :cucumber, :development, :test do
   gem "rails-backbone", :git => "git://github.com/codebrew/backbone-rails.git", :require => "backbone-rails"
   gem 'sqlite3'
 end
+
+group :production do
+end
