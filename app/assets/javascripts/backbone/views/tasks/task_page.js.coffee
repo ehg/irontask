@@ -10,10 +10,10 @@ class Privydo.Views.TaskPage extends Backbone.View
 		@render()
 		@input = @$("#add_task")
 	
-	error: (model, col) ->
+	error: (model, col) ->#TODO: what's col?
 		new Privydo.Views.Error {message: col}
 
-	render: ->
+	render: ->#TODO: method too big. split up
 		$(@el).prepend @template
 		$('#bin').droppable(
 			tolerance: 'touch'
@@ -21,31 +21,38 @@ class Privydo.Views.TaskPage extends Backbone.View
 				model = $(ui.draggable).data("model")
 				if model instanceof Privydo.Models.Task
 					model.destroy()
+					$(ui.draggable).remove()
 				if model instanceof Privydo.Models.Context
 					if @options.contexts.length > 1
-						tasks = @collection.filterWithContexts [model]
-						tasks.each (t) =>
+						tasks_to_del = _(tasks.filterWithContexts [model])
+						tasks_to_del.each (t) =>
 							task_contexts = t.get('contexts')
 							task_contexts =  _.without task_contexts, model.id
 							if task_contexts.length == 0
-								@collection.remove(t)
+								tasks.remove(t)
 								t.destroy()
 							else
 								t.save { contexts: task_contexts }
-						@options.contexts.remove(model)
-						base = @options.contexts.at(0)
-						base.save {selected: true}
-						@options.contexts.selectSingle base
-						@options.taskList.setSelectedContexts @model.collection.selected() #TODO refactoring events will solve this
-		)
+						$(ui.draggable).remove()
+						contexts.remove(model)
+						selected_contexts = _.without( contexts.selected(), model )
+						if selected_contexts.length == 0
+							base = contexts.at(0)
+							base.save {selected: true}
+							contexts.selectSingle base
+							task_list.setSelectedContexts contexts.selected() #TODO refactoring events will solve this
+						else
+							base = selected_contexts[0]
+							base.save {selected: true}
 
+		)
 
 	add_on_enter: (e) ->
 		return unless e.keyCode == 13
 		[date, text] = @extract_date()
 		attrs = @new_attributes(date, text)
 		delete attrs.date unless date
-		task = @collection.create attrs,
+		task = tasks.create attrs,
 			error: @error
 		@input.val ''
 
@@ -55,9 +62,9 @@ class Privydo.Views.TaskPage extends Backbone.View
 		date: date
 		contexts: @contexts_array()
 
-	contexts_array: (contexts) ->
-		_.map @options.contexts.selected(), (c) ->
-			c.get('id')
+	contexts_array: ->
+		_.map contexts.selected(), (c) ->
+			c.get 'id'
 
 	extract_date: ->
 		val = @input.val()
