@@ -79,12 +79,7 @@ class Privydo.Models.Task extends Backbone.Model
 class Privydo.Models.Tasks extends Backbone.Collection
 	model: Privydo.Models.Task
 	url: '/tasks'
-
-	comparator: (task) ->
-		date = task.get('date') || new Date(2998,5,1)
-		order = task.get('order') || -1
-		return "#{date.getTime()}#{order}#{task.get 'text'}" 
-
+	
 	parse: (res) ->
 		_.map(res, (o) ->
 			Privydo.Models.Task.parsal(o)
@@ -99,8 +94,14 @@ class Privydo.Models.Tasks extends Backbone.Collection
 	filterWithContexts: (contexts) ->
 		ids = _.map contexts, (c) ->
 			c.get('id')
-		_(@models.filter (t) ->
-			#_.isEqual t.get('contexts').sort(), ids.sort()
+		@models.filter (t) ->
 			_.intersect(t.get('contexts'), ids).length > 0
-		)
+		
+class Privydo.Models.DisplayTasks extends Privydo.Models.Tasks
+	comparator: (task) ->
+		date = task.get('date') || new Date(2998,5,1)
+		order = task.get('order') || 0
+		date_order = date.getTime() + order
+		heh = "#{date_order}|#{task.get('text').toUpperCase()}"
+		heh
 

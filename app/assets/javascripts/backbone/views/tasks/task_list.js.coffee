@@ -7,7 +7,7 @@ class Privydo.Views.TaskList extends Backbone.View
 	selectedContexts: []
 
 	setSelectedContexts: (contexts) ->
-		@selectedContexts = contexts
+		display_tasks.reset tasks.filterWithContexts(contexts)
 		@addTasks()
 
 	initialize: ->
@@ -30,15 +30,21 @@ class Privydo.Views.TaskList extends Backbone.View
 		#@addTasks()
 
 	change: ->
-		@collection.sort()
+		console.log 'CHANGE'
+		@setSelectedContexts contexts.selected()
+		display_tasks.sort()
 		@addTasks()
 
 	addTasks: ->
 		$('#task-list').html ''
-		@collection.filterWithContexts(@selectedContexts).each(@addTask)
+		#tasks.filterWithContexts(@selectedContexts).each(@addTask)
+		console.log display_tasks
+		display_tasks.each @addTask
 
 	addTask: (task) ->
 		doneDate = task.get('doneDate')
 		if (task.get('done') == false) or (task.get('done') is true and doneDate and doneDate.equals(Date.today()))
 			view = new Privydo.Views.Task {model: task}
 			$('#task-list').append(view.render().el)
+#			console.log "lol:" + task.get('text'), task.get 'order'
+		
