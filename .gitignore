@@ -5,4 +5,5 @@ tmp/
 .sass-cache/
 .*.sw*
 .DS_Store
-
+.swp
+*.bak
