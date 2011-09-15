@@ -37,7 +37,7 @@ class Privydo.Views.Context extends Backbone.View
 		if @new
 			@model.save {selected : true}
 			@model.collection.selectSingle @model
-			@options.taskList.setSelectedContexts @model.collection.selected()
+			task_list.setSelectedContexts @model.collection.selected()
 			@new = false
 
 	update_on_enter: (e) ->
@@ -49,11 +49,11 @@ class Privydo.Views.Context extends Backbone.View
 			if $('#contexts').find('.selected').length > 1
 				console.log 'nooo'
 				@model.save { selected : false }
-				@options.taskList.setSelectedContexts @model.collection.selected()
+				task_list.setSelectedContexts @model.collection.selected()
 				$(@el).removeClass 'selected'
 		else
 			@model.collection.selectSingle @model unless e.ctrlKey == true
 			@model.save { selected : true }
-			@options.taskList.setSelectedContexts @model.collection.selected()
+			task_list.setSelectedContexts @model.collection.selected()
 			$(@el).addClass 'selected'
 		return false

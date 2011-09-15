@@ -13,8 +13,10 @@ class Privydo.Views.Task extends Backbone.View
 		'click .putoff'							: 'putOff'
 
 	initialize: ->
-		_.bindAll @, 'render'
+		_.bindAll @, 'render', 'set_done'
 		@model.bind 'change', @render
+		@model.bind 'change:done', @set_done
+
 		$(@el).hover =>
 			@$('.task-menu').stop(false, true).fadeIn(200) unless $(@el).is('.editing_text') or $(@el).is('.editing_date') or $('.ui-draggable-dragging').length > 0 or @model.get('done')
 		, =>
@@ -22,10 +24,6 @@ class Privydo.Views.Task extends Backbone.View
 
 	render: ->
 		$(@el).html(@template(@options.model.toJSON()))
-		#$(@el).find('.task_text').draggable({ revert : true},
-		#start: =>
-		#	@$('.task-menu').fadeOut(100)
-		#).data("model", @model)
 		$(@el).data 'model', @model
 		@setContent()
 		this
@@ -34,6 +32,8 @@ class Privydo.Views.Task extends Backbone.View
 	putOff: =>
 		oldDate = @model.get('date')
 		if oldDate
+			yesterday = Date.today().addDays(-1)
+			oldDate = yesterday if oldDate.compareTo(yesterday) == -1
 			newDate = oldDate.add(1).days()
 			@model.save { date : newDate }
 			@model.change()
@@ -67,10 +67,12 @@ class Privydo.Views.Task extends Backbone.View
 		@input_date.blur @close_date
 		@input_date.val date_text
 
-		if @model.get('done')
-			$(@el).addClass 'done-task'
-			@$('.task-menu').hide()
-			@$('.add_date').hide()
+		@set_done() if @model.get 'done'
+
+	set_done: ->
+		$(@el).addClass 'done-task'
+		@$('.task-menu').hide()
+		@$('.add_date').hide()
 	
 	edit_text: ->
 		$(@el).addClass 'editing_text'

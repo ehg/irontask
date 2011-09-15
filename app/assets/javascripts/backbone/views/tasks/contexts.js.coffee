@@ -22,19 +22,19 @@ class Privydo.Views.Contexts extends Backbone.View
 	render: ->
 
 	reorder: ->
-		@collection.sort()
+		contexts.sort()
 		@addContexts()
 
 	addContexts: ->
 		@$('#contexts-list').html ''
-		@collection.each @addContext
+		contexts.each @addContext
 
 	addContext: (context) ->
-		view = new Privydo.Views.Context {model : context, taskList: @options.taskList}
+		view = new Privydo.Views.Context {model : context}
 		@$('#contexts-list').append view.render().el
 
 	addNew: ->
-		model = new Privydo.Models.Context {order : @collection.length, text : ''}
-		@collection.add model
+		model = new Privydo.Models.Context {order : contexts.length, text : ''}
+		contexts.add model
 
 
