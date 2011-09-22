@@ -30,6 +30,9 @@ group :development, :test do
   gem 'jasmine'
   gem 'jasminerice'
   gem 'sqlite3'
+	gem 'rb-fsevent'
+	gem 'guard-livereload'
+	gem 'growl'
 end
 
 group :production do
