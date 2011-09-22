@@ -48,11 +48,12 @@ class Privydo.Views.Task extends Backbone.View
 		@$('.task_text').text text
 		date_text = null
 		if date
-			date_text = date.toString('d/M/yyyy')
+			date_text = date.toString 'd/M/yyyy'
+			$(@el).addClass date.toString 'dMyyyy'
 			date_text = date.toString('dddd') if date.between(Date.today(), Date.today().addDays(7))
 			date_text = 'Yesterday' if date.equals(Date.today().addDays(-1))
 			(date_text = 'Today') && $(@el).addClass 'today' if date.equals(Date.today())
-			date_text = 'Tomorrow' if date.equals(Date.today().addDays(1))
+			(date_text = 'Tomorrow') && $(@el).addClass 'tomorrow' if date.equals(Date.today().addDays(1))
 			@$('.task_date').text date_text
 
 			$(@el).addClass 'overdue' if date.compareTo(Date.today()) == -1
@@ -83,6 +84,7 @@ class Privydo.Views.Task extends Backbone.View
 		@$('.task-menu').hide()
 		$(@el).addClass 'editing_date'
 		@input_date.focus()
+		@input_date.select()
 
 	close_text: =>
 		@model.save {text: @input_text.val()},

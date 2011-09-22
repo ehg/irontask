@@ -12,7 +12,7 @@ class Privydo.Models.Task extends Backbone.Model
 		return "no text" if 'text' of attrs and attrs.text and attrs.text.length < 1
 		return "text too long" if 'text' of attrs and attrs.text and attrs.text.length > 60
 		return "no done" if 'done' of attrs and !(attrs.done in [true, false])
-		return "invalid date" if 'date' of attrs and !_.isDate(attrs.date)
+		return "invalid date" if 'date' of attrs and (!_.isDate(attrs.date) and attrs.date != null)
 		return "no contexts specified" if 'contexts' of attrs and (!_.isArray(attrs.contexts) or attrs.contexts.length < 1)
 	
 	@parsal: (res) ->
