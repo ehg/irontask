@@ -21,15 +21,18 @@ class Privydo.Views.Context extends Backbone.View
 
 	setContent: ->
 		$(@el).html @template @options.model.toJSON()
-		@$('.context').text @model.get('text')
 		@input = @$('input')
+		(@edit() && @new = true) if @model.get('text') == ''
+		@$('.context').text @model.get('text')
 		@input.blur @close
 		@input.val @model.get 'text'
-		(@edit() && @new = true) if @model.get('text') == ''
 
-	edit: ->
+	edit: =>
 		$(@el).addClass 'editing'
-		@input.focus()
+		setTimeout =>
+			console.log @input.focus()
+			console.log @input
+		, 1
 
 	close: =>
 		@model.save { text : @input.val() }
