@@ -2,6 +2,12 @@ window.contexts = new Privydo.Models.Contexts
 window.tasks = new Privydo.Models.Tasks
 window.display_tasks = new Privydo.Models.DisplayTasks
 
+window.loading_anim = new Privydo.Views.LoadingAnimation
+$(document).ajaxStart ->
+	loading_anim.render()
+$(document).ajaxStop ->
+	loading_anim.destroy()
+
 class Privydo.Routers.TasksRouter extends Backbone.Router
 	routes:
 		"" : "index"
@@ -21,6 +27,7 @@ class Privydo.Routers.TasksRouter extends Backbone.Router
 			tasks.bind 'reset', task_list.addTasks
 			tasks.bind 'remove', task_list.change
 			tasks.bind 'change:text', task_list.change
+			tasks.bind 'change:date', task_list.change
 			tasks.bind 'destroy', task_list.change
 			tasks.fetch(success: =>
 				task_list.setSelectedContexts contexts.selected()
