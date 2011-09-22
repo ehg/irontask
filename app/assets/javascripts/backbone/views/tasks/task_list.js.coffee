@@ -15,6 +15,7 @@ class Privydo.Views.TaskList extends Backbone.View
 		$('#task-list').sortable {}
 			start: (event, ui) =>
 				klass = $(ui.item).attr 'class'
+				klass = klass.split(' ')[0]
 				console.log klass
 				$('#task-list').sortable('option', 'items', ".#{klass}")
 				$('#task-list').sortable('refresh')
