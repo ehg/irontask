@@ -71,7 +71,9 @@ class Privydo.Views.TaskPage extends Backbone.View
 		re = new RegExp(".*(for (.*))", "i")
 		m = re.exec val
 		if m?
-			parsedDate = Date.parse(m[m.length - 1])
+			last_match = m[m.length - 1]
+			last_match = "next #{last_match}" if last_match.toUpperCase() in ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+			parsedDate = Date.parse last_match
 			if parsedDate?
 				t = jQuery.trim val.replace(m[1], '')
 				[parsedDate, t]
