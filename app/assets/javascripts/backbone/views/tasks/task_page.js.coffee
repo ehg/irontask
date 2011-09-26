@@ -15,37 +15,7 @@ class Privydo.Views.TaskPage extends Backbone.View
 
 	render: ->#TODO: method too big. split up
 		$(@el).prepend @template
-		$('#bin').droppable(
-			tolerance: 'touch'
-			drop: (event, ui) =>
-				model = $(ui.draggable).data("model")
-				if model instanceof Privydo.Models.Task
-					model.destroy()
-					$(ui.draggable).remove()
-				if model instanceof Privydo.Models.Context
-					if @options.contexts.length > 1
-						tasks_to_del = _(tasks.filterWithContexts [model])
-						tasks_to_del.each (t) =>
-							task_contexts = t.get('contexts')
-							task_contexts =  _.without task_contexts, model.id
-							if task_contexts.length == 0
-								tasks.remove(t)
-								t.destroy()
-							else
-								t.save { contexts: task_contexts }
-						$(ui.draggable).remove()
-						contexts.remove(model)
-						selected_contexts = _.without( contexts.selected(), model )
-						if selected_contexts.length == 0
-							base = contexts.at(0)
-							base.save {selected: true}
-							contexts.selectSingle base
-							task_list.setSelectedContexts contexts.selected() #TODO refactoring events will solve this
-						else
-							base = selected_contexts[0]
-							base.save {selected: true}
-
-		)
+		$('#add_task').focus()
 
 	add_on_enter: (e) ->
 		return unless e.keyCode == 13
@@ -54,6 +24,7 @@ class Privydo.Views.TaskPage extends Backbone.View
 		delete attrs.date unless date
 		task = tasks.create attrs,
 			error: @error
+		task.new = true
 		@input.val ''
 
 	new_attributes: (date, text) ->
