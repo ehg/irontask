@@ -1,16 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Privydo</title>
+  <title>irontask</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <style type="text/css" media="screen">
+    p {
+      border: 1px solid #000;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
-  <%= flash[:notice] %>
-  <div id="notice"></div>
-<%= yield %>
+  
+  <div id="footer-container">
+  <div class="row">
+  <div class="column grid_10">
+        <div class="rubbish">
+        </div>
+  <div id="footer">
+      <ul>
+        <li><a>&copy; Jumpwire Limited 2011</a></li>
+        <li><a>Terms and Conditions</a></li>
+        <li><a>Privacy policy</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div> 
+  </div>
+</div>
+ </div>
 
-  <div id="loading"><img src="/assets/ajax-loader.gif"></div>
+
+  <div id="content">    
+    <div class="row border"> 
+   <div class="column grid_10">
+     <div id="topbar">
+       <div id="logout">
+          <% if user %>
+          <%= URI.escape user.username %>
+          <%= link_to '(sign out)', session_path, :method => :delete %>
+        <% end %>
+       </div>
+
+      <div id="logo">
+        <img src="/assets/logo.png">
+      </div>
+      <div id="navigation"> 
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">My Settings</a></li>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Done tasks</a></li>
+        </ul>
+        </div>
+      </div>
+      <div id="notice-container">
+       <div id="notice-bar">
+          <%= flash[:notice] %>
+        </div>
+        <div class="rubbish">
+        </div>
+      </div>
+  </div>  
+ </div>
+    <%= yield %>
+</div>
 </body>
 </html>
