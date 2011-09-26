@@ -1,10 +1,25 @@
-= form_tag session_path, :id => 'login' do
-  = hidden_field_tag :password
-  %p
-    = label_tag :username, "Username or Email Address"
-    = text_field_tag :username, params[:username]
-  %p
-    = label_tag :input_password
-    %input{ :id => 'input_password', :type => 'password'}
-  %p
-    = submit_tag "Sign in"
+<div class="row">
+  <div class="column grid_10">
+    <div id="sign-in" >
+      <h1>Sign in to irontask</h1>
+      <%= form_tag session_path, :id => 'login' do %>
+        <%= hidden_field_tag :password %>
+        <p class="label">
+          <%= label_tag :username, "Username or email" %>
+        </p>
+        <p>
+          <%= text_field_tag :username, params[:username], {:placeholder => 'Username or email'} %>
+        </p>
+        <p class="label">
+          <%= label_tag :input_password, 'Password'%>
+        </p>
+        <p>
+          <input id='input_password' type='password' placeholder='Password'> 
+        </p>
+        <div class="submit">
+          <%= submit_tag "Sign in"%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
