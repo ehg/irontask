@@ -12,19 +12,25 @@ class Privydo.Views.TaskList extends Backbone.View
 
 	initialize: ->
 		_.bindAll(this, 'render', 'addTasks', 'addTask', 'change')
+		rubbish = new Privydo.Views.Rubbish
 		$('#task-list').sortable {}
+			scroll: false
 			start: (event, ui) =>
 				klass = $(ui.item).attr 'class'
 				klass = klass.split(' ')[0]
 				console.log klass
 				$('#task-list').sortable('option', 'items', ".#{klass}")
 				$('#task-list').sortable('refresh')
+				rubbish.render()
 			update: (event, ui) =>
 				tasks = @$('li')
 				for el, i in tasks
 					model = $(el).data('model')
 					console.log model.get('text'), model
 					model.save {order: i}, {silent:true} if model?
+			stop: (events, ui) =>
+				rubbish.hide()
+
 
 
 	render: ->

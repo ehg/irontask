@@ -7,8 +7,13 @@ class Privydo.Views.Contexts extends Backbone.View
 
 	initialize: ->
 		_.bindAll @, 'addContexts', 'addContext', 'reorder', 'addNew'
+		rubbish = new Privydo.Views.Rubbish
+
 		@$('#contexts-list').sortable
 			distance: 15
+			zIndex: 2000
+			appendTo: 'body'
+			scroll: false
 			update: (event, ui) =>
 				contexts = @$('#contexts-list').find('li')
 				for el, i in contexts
@@ -18,8 +23,10 @@ class Privydo.Views.Contexts extends Backbone.View
 						model.set {order: i}, {silent : true}
 					else
 						model.save {order: i}
-
-	render: ->
+			start: (events, ui) =>
+				rubbish.render()
+			stop: (events, ui) =>
+				rubbish.hide()
 
 	reorder: ->
 		contexts.sort()
@@ -36,5 +43,4 @@ class Privydo.Views.Contexts extends Backbone.View
 	addNew: ->
 		model = new Privydo.Models.Context {order : contexts.length, text : ''}
 		contexts.add model
-
 
