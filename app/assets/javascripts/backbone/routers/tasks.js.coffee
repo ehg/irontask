@@ -4,15 +4,17 @@ window.display_tasks = new Privydo.Models.DisplayTasks
 
 window.loading_anim = new Privydo.Views.LoadingAnimation
 $(document).ajaxStart ->
-	loading_anim.render()
+	$('#main').fadeTo 'fast', 0.4
 $(document).ajaxStop ->
-	loading_anim.destroy()
+	$('#main').fadeTo 'fast', 1.0
 
 class Privydo.Routers.TasksRouter extends Backbone.Router
 	routes:
 		"" : "index"
 
 	index: ->
+		$("#navigation ul li a*").removeClass 'selected'
+		$("#navigation ul li a:contains('Home')").addClass 'selected'
 
 		window.contexts_view = new Privydo.Views.Contexts
 		window.task_list = new Privydo.Views.TaskList
