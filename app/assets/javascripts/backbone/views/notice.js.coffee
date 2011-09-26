@@ -3,6 +3,7 @@ class Privydo.Views.Notice extends Backbone.View
 	className: "success"
 	displayLength: 5000
 	defaultMessage: ''
+	el: '#notice-bar'
 
 	initialize: ->
 		_.bindAll this, 'render'
@@ -12,16 +13,16 @@ class Privydo.Views.Notice extends Backbone.View
 		@render()
 
 	render: ->
-		view = this
-		$(this.el).html(@display)
-		$(this.el).hide()
-		$('#notice').html(this.el)
-		$(this.el).slideDown()
-		jQuery.doTimeout(@displayLength, (->	jQuery(view.el).slideUp(); jQuery.doTimeout(2000, ( -> view.remove() ))))
-		return this
+		$(@el).addClass @className
+		$(@el).html(@display)
+		$(@el).hide()
+		$(@el).slideDown()
+		jQuery.doTimeout @displayLength, =>
+			$(@el).slideUp()
+		@
 
 	parseErrors: (json) ->
-		display = '' 
+		display = ''
 		for field, errorText of jQuery.parseJSON(json)
 			display += "<li>#{field} #{errorText}</li>"
 		display
