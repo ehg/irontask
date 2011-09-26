@@ -1,17 +1,34 @@
+<div id="form">
 <form>
 	<p>
-		<label for="username">Username or Email Address</label>
-		<input name="username" type="text"/>
+		<input name="username" type="text" placeholder="Username or email">
  	</p>
 	<p>
-		<label for="password">Password</label>
-		<input name="password" type="password"/>
-	</p>
- 	<p>
-		<label for="confirm_password">Confirm password</label>
-		<input name="confirm_password" type="password"/>
+		<input name="password" type="password" placeholder="Password"/>
 	</p>
 	<p>
-		<button>Sign up</button>
+		<input name="confirm_password" type="password" placeholder="Confirm password"/>
 	</p>
+	<p>
+		<input name="secret" type="password" placeholder="Secret word"/>
+	</p>
+
+ 	<div class="submit">
+		<button>Sign me up!</button>
+	</div>
 </form>    
+</div>
+<div id="validation">
+		<p>
+		<label for="username">Enter a username or your email address</label>
+		</p>
+		<p>
+		<label for="password">Choose a secure password</label>
+		</p>
+		<p>
+		<label for="confirm_password">Type it again, so we know it's right</label>
+		</p>
+		<p>
+		<label for="confirm_password">Enter the secret password (oooOOoh)</label>
+		</p>		
+</div>
