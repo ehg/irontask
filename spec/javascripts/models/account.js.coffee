@@ -30,5 +30,12 @@ describe "Account", ->
 		expect(eventSpy.calledOnce).toBeTruthy()
 		expect(eventSpy.calledWith(account, "password empty")).toBeTruthy()
 
-	xit "should display an error if the username already exists", ->
+	it "should be able to check if a username exists", ->
+		account = new Privydo.Models.Account
+		spy = sinon.spy jQuery, "ajax"
+		account.username_available('chris')
+		expect(jQuery.ajax).toHaveBeenCalled()
+		jQuery.ajax.restore()
 
+	it "should fire an event when ajax req 400/200"
+	it "should fire an event when ajax req fails"
