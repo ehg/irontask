@@ -3,8 +3,11 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :tasks
 
+  attr_accessor :magic_word
+
   validates_presence_of :username, :password
   validates :username, :length => {:maximum => 50}, :uniqueness => true
+  validates_inclusion_of :magic_word, :in => ["please"], :message => 'Sorry, your secret word is WRONG'
   before_save :generate_salt
 
   def self.authenticate(username, password)

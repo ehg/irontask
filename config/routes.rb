@@ -7,7 +7,9 @@ Privydo::Application.routes.draw do
       resources :tasks
       
       root :controller => "user_sessions", :action => "new"
-      
+
+      match '/users/username_available', :to => 'users#username_available'       
+
       if ["development", "test"].include? Rails.env
             mount Jasminerice::Engine => "/jasmine" 
       end

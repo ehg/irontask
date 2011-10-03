@@ -58,10 +58,19 @@
   box-shadow: 0;
   border: 0;
   font-size: 14px;
-  border-radius: 2px;
   cursor: pointer;
 }
 #sign-in input[type=submit]:hover
 {
   opacity: 0.8;
+}
+
+.shortPass, .badPass, .error
+{
+  color: red;
+}
+
+.goodPass, .strongPass, .valid
+{
+  color: green;
 }
