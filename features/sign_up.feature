@@ -1,28 +1,69 @@
 Feature: Sign up
-    In order to use the site
-    I want to be able to enter a username and password and be registered with the site, without having to enter any details that would compromise my anonymity
-    
-    Scenario: User signs up with a username and strong password
-                When I go to the sign up page
-                And I fill in "Username" with "jackbauer"
-                And I fill in "Password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-                And I fill in "Confirm password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-                And I press "Sign up"
-                Then I should see "Thanks! You've signed up."
+	In order to use the site
+	I want to be able to enter a username and password and be registered with the site, without having to enter any details that would compromise my anonymity.
+	As a site owner, I want only a certain selection of people to be able to join the site.
 
-        Scenario: User signs up with a username and weak password
-                When I go to the sign up page
-                And I fill in "Username" with "jackbauer"
-                And I fill in "Password" with "weak"
-                And I fill in "Confirm password" with "weak"
-                And I press "Sign up"
-                Then I should see "That password isn't very strong."
+	Scenario: I sign up with a username and strong password
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "secret" with "please"
+		And I press "Sign me up!"
+		Then I should see "We'll now take you to the sign in page"
+		#		And I should be on the sign in page
 
-        Scenario: User signs up with an empty username and password
-                When I go to the sign up page
-                And I fill in "Username" with ""
-                And I fill in "Password" with ""
-                And I fill in "Confirm password" with ""
-                And I press "Sign up"
-                Then I should see "You need to enter a password."
+	Scenario: I sign up with a username and weak password
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with "weakling"
+		And I fill in "confirm_password" with "weakling"
+		And I fill in "secret" with "please"
+		And I press "Sign me up!"
+		Then I should see "That isn't very secure."
+
+	Scenario: I sign up with the wrong secret password
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "secret" with "beta"
+		And I press "Sign me up!"
+		Then I should see "Sorry, your secret word is WRONG"
+
+	Scenario: I sign up with an empty username
+		When I go to the sign up page
+		And I fill in "username" with ""
+		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I press "Sign me up!"
+		Then I should see "A user name or email address is required!"
+
+	Scenario: I sign up with a username that has already been taken
+		Given I have signed up
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "secret" with "please"
+		And I press "Sign me up!"
+		Then I should see "That's taken :( Please choose another."
+	
+	Scenario: I sign up with an empty password
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with ""
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "secret" with "please"
+		And I press "Sign me up!"
+		Then I should see "A password is required!"
+	
+	Scenario: My password does not match my confirmed password
+		When I go to the sign up page
+		And I fill in "username" with "jackbauer"
+		And I fill in "password" with "jumpingjesusohlawwwd"
+		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
+		And I fill in "secret" with "please"
+		And I press "Sign me up!"
+		Then I should see "This doesn't match your password!"
 
