@@ -3,8 +3,10 @@ describe "Sign up view", ->
 	beforeEach ->
 		model = new Backbone.Model { username: 'chris' }
 		model.username_available = (username) ->
-			return true unless username == 'chris'
-			return false
+			result = username != 'chris'
+			console.log 'chris'
+			@.trigger 'username_taken', result
+			
 		@view = new Privydo.Views.Signup {model: model}
 		setFixtures "<div id='app'></div>"
 	
@@ -102,16 +104,18 @@ describe "Sign up view", ->
 				expect(@confirm_tip).toBeVisible()
 
 			xit "checks the passwords match 1 second after last input", ->
-				clock = sinon.useFakeTimers()
 				spy = sinon.spy @view, "valid_confirm_password"
+				jasmine.Clock.useMock()
+
 				@confirm_password.val 'te'
 				@confirm_password.keyup()
 				@confirm_password.val 'test'
 				@confirm_password.keyup()
-				clock.tick(1000)
+
+				jasmine.Clock.tick(2000)
+
 				console.log spy.callCount
-				expect(spy).toHaveBeenCalledOnce()
-				clock.restore()
+				expect(spy).toHaveBeenCalled()
 
 			it "shows an error if the password doesn't match the confirmed password", ->
 				@confirm_password.val 'test'
