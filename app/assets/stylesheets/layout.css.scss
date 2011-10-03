@@ -29,6 +29,10 @@ body
     overflow: scroll;
 }
 
+input
+{
+  border-radius: 2px;
+}
 
 div#topbar
 {
@@ -105,13 +109,12 @@ div#notice-bar
 {
   height: 37px;
   line-height: 37px;
-  vertical-align: middle;
+  text-align:center;
   background-color: #f1f1f1;
   border-bottom-color: #d2d2d2;
   border-bottom-width: 1px;
   display: none;
-  text-align: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   color: #387539;
 }
