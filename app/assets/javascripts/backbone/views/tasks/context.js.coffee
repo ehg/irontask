@@ -47,7 +47,7 @@ class Privydo.Views.Context extends Backbone.View
 		@close() if e.keyCode == 13
 
 	select: (e) =>
-		if $(@el).is('.selected') and e.ctrlKey == true
+		if $(@el).is('.selected') and (e.ctrlKey == true or e.metaKey == true)
 			console.log 'selected'
 			if $('#contexts').find('.selected').length > 1
 				console.log 'nooo'
@@ -55,7 +55,7 @@ class Privydo.Views.Context extends Backbone.View
 				task_list.setSelectedContexts @model.collection.selected()
 				$(@el).removeClass 'selected'
 		else
-			@model.collection.selectSingle @model unless e.ctrlKey == true
+			@model.collection.selectSingle @model unless (e.ctrlKey == true or e.metaKey == true)
 			@model.save { selected : true }
 			task_list.setSelectedContexts @model.collection.selected()
 			$(@el).addClass 'selected'
