@@ -9,6 +9,7 @@ Feature: Sign up
 		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "secret" with "please"
+		And I wait
 		And I press "Sign me up!"
 		Then I should see "We'll now take you to the sign in page"
 		#		And I should be on the sign in page
@@ -28,6 +29,7 @@ Feature: Sign up
 		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "secret" with "beta"
+		And I wait
 		And I press "Sign me up!"
 		Then I should see "Sorry, your secret word is WRONG"
 
@@ -46,6 +48,7 @@ Feature: Sign up
 		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "secret" with "please"
+		And I wait
 		And I press "Sign me up!"
 		Then I should see "That's taken :( Please choose another."
 	

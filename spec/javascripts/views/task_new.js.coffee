@@ -1,19 +1,26 @@
 describe "Tasks page view", ->
 	beforeEach ->
 		@view = new Privydo.Views.TaskPage
+		setFixtures "<div id='create-task'></div>"
 		@view.render()
+		@input = $(@view.el).find('#add_task')
 
 	it "renders the new task input box", ->
-		expect($(@view.el).find('#add_task').length).toNotEqual(0)
+		expect(@input.length).toNotEqual(0)
 
+	#should stub out collection here
 	describe "When text is entered into the input", ->
 		beforeEach ->
-			$('#add_task').text 'Newwwwwwwww task!'
-			e = jQuery.Event 'keydown', { keyCode: 13 }
-			$('#add_task').trigger(e)
+			@spy = sinon.spy tasks, "create"
+			@input.text 'Newwwwwwwww task!'
+			e = jQuery.Event 'keypress', { keyCode: 13 }
+			@input.trigger e
+
+		afterEach ->
+			tasks.create.restore()
 
 		it "triggers a save event", ->
-			eventSpy = sinon.spy()
-			@view.bind "keydown #add_task", eventSpy
-			expect(eventSpy).toHaveBeenCalledOnce()
-			@view.unbind "keydown #add_task"
+			expect(@spy).toHaveBeenCalled()
+
+		it "clears the text in the box", ->
+			expect(@input.val().length).toEqual 0

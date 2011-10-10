@@ -51,9 +51,6 @@ describe "Task", ->
 			expect(@eventSpy).toHaveBeenCalledOnce()
 			expect(@eventSpy).toHaveBeenCalledWith( @task, "no contexts specified" )
 
-		xit "should not be valid without existing contexts", ->
-			# more of an integration test?
-
 	describe "URL", ->
 		beforeEach ->
 			@task = new Privydo.Models.Task taskAttributes
@@ -65,50 +62,75 @@ describe "Task", ->
 		it "should have /tasks as an URL if a task has no ID", ->
 			expect(@task.url()).toEqual "/tasks"
 
+	describe "Actions", ->
+		beforeEach ->
+			@task = new Privydo.Models.Task taskAttributes
+			@stub = sinon.stub @task, "save"
+
+		afterEach ->
+			@task.save.restore()
+
+		it "saves the task as done", ->
+			@task.setDone()
+			expect(@stub).toHaveBeenCalledOnce()
+			expect(@stub).toHaveBeenCalledWith { done: true, doneDate: Date.today() }
+
+		describe "When a task is put off", ->
+			it "adds one day to the date if the date is later than yesterday", ->
+				@task.set {date : Date.today()}
+				@task.putOff()
+				expect(@stub).toHaveBeenCalledOnce()
+				expect(@stub).toHaveBeenCalledWith { date: Date.today().addDays(1) }
+
+			it "adds sets the date to today if the date is earlier than yesterday", ->
+				@task.set {date : Date.today().addDays(-4)}
+				@task.get 'date'
+				@task.putOff()
+				expect(@stub).toHaveBeenCalledOnce()
+				expect(@stub).toHaveBeenCalledWith { date: Date.today() }
 
 describe "Task Collection", ->
-	[taskStub, model, tasks, task1, task2, task3, task4] = [null, null, null, null, null, null, null]
-	
 	beforeEach ->
-		#models = window["Privydo"]["Models"]
-		#taskStub = sinon.stub(models, "Task")
-		#model = new Backbone.Model {id: 5, text: "Test"}
-		#taskStub.returns(model)
-		tasks = new Privydo.Models.DisplayTasks
-		task1 = new Privydo.Models.Task {id: 5, text: "Test 1"}
-		task2 = new Privydo.Models.Task {id: 4, text: "Test 2", date: new Date(2011, 07, 18, 12, 35, 00, 00)}
-		task3 = new Privydo.Models.Task {id: 3, text: "Test 3", date: new Date(2011, 08, 19) }
-		task4 = new Privydo.Models.Task {id: 2, text: "Test 4", date: new Date(2011, 07, 18)}
+		@taskStub = sinon.stub window["Privydo"]["Models"], "Task"
+		@model = new Backbone.Model {id: 5, text: "Test"}
+		@taskStub.returns @model
+		@tasks = new Privydo.Models.DisplayTasks
+		@tasks.model = Privydo.Models.Task
+		@task1 = new Backbone.Model {id: 5, text: "Test 1"}
+		@task2 = new Backbone.Model {id: 4, text: "Test 2", date: new Date(2011, 07, 18, 12, 35, 00, 00)}
+		@task3 = new Backbone.Model {id: 3, text: "Test 3", date: new Date(2011, 08, 19) }
+		@task4 = new Backbone.Model {id: 2, text: "Test 4", date: new Date(2011, 07, 18)}
 	
 	afterEach ->
-		#taskStub.restore()
+		@taskStub.restore()
 	
 
 	describe "Adding and ordering", ->
 		it "should add a model", ->
-			tasks.add [task1, task2, task3, task4]
-			expect(tasks.length).toEqual(4)
+			@tasks.add [@task1, @task2, @task3, @task4]
+			expect(@tasks.length).toEqual(4)
 		
 		it "should find a model by id", ->
-			tasks.add [task1, task2, task3, task4]
-			expect(tasks.get(3).get("id")).toEqual(3)
+			@tasks.add [@task1, @task2, @task3, @task4]
+			expect(@tasks.get(3).get("id")).toEqual(3)
 	
 		it "should order models by date", ->
-			tasks.add [task1, task2, task3, task4]
-			expect(tasks.at 0).toBe task4
-			expect(tasks.at 1).toBe task2
-			expect(tasks.at 2).toBe task3
-			expect(tasks.at 3).toBe task1
+			@tasks.add [@task1, @task2, @task3, @task4]
+			expect(@tasks.at 0).toBe @task4
+			expect(@tasks.at 1).toBe @task2
+			expect(@tasks.at 2).toBe @task3
+			expect(@tasks.at 3).toBe @task1
 
 		it "should order models by date, then order number", ->
-			task2.set { date: new Date(2011, 07, 18), order : 1}
-			task4.set { order : 2}
-			tasks.add [task1, task2, task3, task4]
-			expect(tasks.at 0).toBe task2
-			expect(tasks.at 1).toBe task4
-			expect(tasks.at 2).toBe task3
-			expect(tasks.at 3).toBe task1
+			@task2.set { date: new Date(2011, 07, 18), order : 1}
+			@task4.set { order : 2}
+			@tasks.add [@task1, @task2, @task3, @task4]
+			expect(@tasks.at 0).toBe @task2
+			expect(@tasks.at 1).toBe @task4
+			expect(@tasks.at 2).toBe @task3
+			expect(@tasks.at 3).toBe @task1
 
+	# Disabled cos of lack of encryption atm
 	describe "Server", ->
 
 		beforeEach ->
@@ -122,13 +144,13 @@ describe "Task Collection", ->
 			@server.restore()
 			deleteCookie 'key'
 
-		it "should make the correct request", ->
+		xit "should make the correct request", ->
 			@tasks.fetch()
 			expect(@server.requests.length).toEqual(1)
 			expect(@server.requests[0].method).toEqual('GET')
 			expect(@server.requests[0].url).toEqual('/tasks')
 
-		it "should parse todos from the response", ->
+		xit "should parse todos from the response", ->
 			@tasks.fetch()
 			@server.respond()
 			expect(@tasks.length).toEqual(@fixtures.Tasks.valid.tasks.length)

@@ -3,8 +3,6 @@ class Privydo.Views.Context extends Backbone.View
 	template: JST['backbone/templates/tasks/context']
 	tagName: 'li'
 
-	taskCollection: null
-
 	events :
 		'doubleclick span.context'	: 'edit'
 		'singleclick span.context' 		: 'select'
@@ -30,17 +28,14 @@ class Privydo.Views.Context extends Backbone.View
 	edit: =>
 		$(@el).addClass 'editing'
 		setTimeout =>
-			console.log @input.focus()
-			console.log @input
+			@input.focus()
 		, 1
 
 	close: =>
 		@model.save { text : @input.val() }
 		$(@el).removeClass 'editing'
 		if @new
-			@model.save {selected : true}
-			@model.collection.selectSingle @model
-			task_list.setSelectedContexts @model.collection.selected()
+			@model.select()
 			@new = false
 
 	update_on_enter: (e) ->
@@ -48,15 +43,11 @@ class Privydo.Views.Context extends Backbone.View
 
 	select: (e) =>
 		if $(@el).is('.selected') and (e.ctrlKey == true or e.metaKey == true)
-			console.log 'selected'
-			if $('#contexts').find('.selected').length > 1
-				console.log 'nooo'
-				@model.save { selected : false }
-				task_list.setSelectedContexts @model.collection.selected()
-				$(@el).removeClass 'selected'
+			@model.deselect()
 		else
-			@model.collection.selectSingle @model unless (e.ctrlKey == true or e.metaKey == true)
-			@model.save { selected : true }
-			task_list.setSelectedContexts @model.collection.selected()
+			if e.ctrlKey == true or e.metaKey == true
+				@model.select(true)
+			else
+				@model.select()
 			$(@el).addClass 'selected'
 		return false

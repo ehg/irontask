@@ -45,74 +45,53 @@ class Privydo.Views.Signup extends Backbone.View
 	# Events
 	username_keyup: (event) =>
 		if event.keyCode != 9
-			@username_taken_debounce() unless @is_username_empty()
+			@username_taken_debounce()
 	
 	username_blur: =>
-		@username_taken() unless @is_username_empty()
+		@username_taken()
 	
 	password_keyup: (event) =>
 		if event.keyCode != 9
 			@is_password_empty()
-			@passwords_are_same() if @confirm_input.val().length > 0
+			@valid_confirm_password() if @confirm_input.val().length > 0
 
 	confirm_password_keyup: (event) =>
 		@valid_confirm_password_debounce() if event.keyCode != 9
 
-	submit_click: (event) =>#shorten lines!
-		@valid_confirm_password();@is_username_empty();@is_password_empty()
-		event.preventDefault() or @shake_button() unless @is_valid_username and @is_valid_password and @is_valid_confirm_password
-
-	# see if below can be DRYed, move validation logic to model
+	submit_click: (event) ->#shorten lines!
+		@valid_confirm_password();@username_taken();@is_password_empty()
+		event.preventDefault() or @shake_button() unless @model.valid_fields()
 
 	is_password_empty: ->
-		if @password_input.val().length == 0
+		if !@model.validate_password @password_input.val()
 			$('#sidetip-password').text "A password is required!"
 			$('#sidetip-password').attr 'class', 'error'
-			@is_valid_password = false
-		else
-			@is_valid_password = true
-
 
 	valid_confirm_password: ->
-		if @confirm_input.val().length == 0
-			@$('#sidetip-confirm_password').text "Please confirm your password!"
-			@$('#sidetip-confirm_password').attr 'class', 'error'
-			@is_valid_confirm_password = false
-		else
-			@passwords_are_same()
-				
-	passwords_are_same: ->
-		if @password_input.val() != @confirm_input.val()
-			@$('#sidetip-confirm_password').text "This doesn't match your password!"
-			@$('#sidetip-confirm_password').attr 'class', 'error'
-			@is_valid_confirm_password = false
-		else
-			@$('#sidetip-confirm_password').text "Passwords match!"
-			@$('#sidetip-confirm_password').attr 'class', 'valid'
-			@is_valid_confirm_password = true
-
-
-	is_username_empty: ->
-		if @username_input.val().length == 0
-			@$('#sidetip-username').text "A user name or email address is required!"
-			@$('#sidetip-username').attr 'class', 'error'
-			@is_valid_username = false
-			return true
-		@is_valid_username = true
-		false
+		@model.validate_confirm @password_input.val(), @confirm_input.val(),
+			empty: =>
+				@$('#sidetip-confirm_password').text "Please confirm your password!"
+				@$('#sidetip-confirm_password').attr 'class', 'error'
+			donotmatch: =>
+				@$('#sidetip-confirm_password').text "This doesn't match your password!"
+				@$('#sidetip-confirm_password').attr 'class', 'error'
+			success: =>
+				@$('#sidetip-confirm_password').text "Passwords match!"
+				@$('#sidetip-confirm_password').attr 'class', 'valid'
 
 	username_taken: ->
-		@model.username_available @username_input.val()
+		if !@model.validate_username(@username_input.val())
+			@$('#sidetip-username').text	"A user name or email address is required!"
+			@$('#sidetip-username').attr 'class', 'error'
 
-	is_username_taken: (taken) ->
-		if taken
+	is_username_taken: (available) ->
+		if available
 			@$('#sidetip-username').text "Fantastic, that's available."
 			@$('#sidetip-username').attr 'class', 'valid'
-			@is_valid_username = true
+			@model.valid_username = true
 		else
 			@$('#sidetip-username').text "That's taken :( Please choose another."
 			@$('#sidetip-username').attr 'class', 'error'
-			@is_valid_username = false
 
 	shake_button: ->
 		@$('div.submit button').effect 'shake', {times: 3, distance: 5}, 100

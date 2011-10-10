@@ -2,7 +2,6 @@ window.contexts = new Privydo.Models.Contexts
 window.tasks = new Privydo.Models.Tasks
 window.display_tasks = new Privydo.Models.DisplayTasks
 
-window.loading_anim = new Privydo.Views.LoadingAnimation
 $(document).ajaxStart ->
 	$('#main').fadeTo 'fast', 0.4
 $(document).ajaxStop ->
@@ -16,15 +15,16 @@ class Privydo.Routers.TasksRouter extends Backbone.Router
 		$("#navigation ul li a*").removeClass 'selected'
 		$("#navigation ul li a:contains('Home')").addClass 'selected'
 
-		window.contexts_view = new Privydo.Views.Contexts
-		window.task_list = new Privydo.Views.TaskList
+		window.contexts_view = new Privydo.Views.Contexts {collection: contexts, el: '#contexts-list'}
+		window.add_context_view = new Privydo.Views.AddContext {collection: contexts, el: '#contexts'}
+		window.task_list = new Privydo.Views.TaskList {collection: display_tasks, el: '#task-list'}
 		
 		contexts.bind 'reset', contexts_view.addContexts
 		contexts.bind 'change', contexts_view.reorder
 		contexts.bind 'add', contexts_view.addContext
 
 		contexts.fetch (success: =>
-			task_page =	new Privydo.Views.TaskPage {collection: tasks, contexts: contexts}
+			task_page =	new Privydo.Views.TaskPage {collection: tasks, contexts: contexts, el: '#create-task'}
 			tasks.bind 'add', task_list.change
 			tasks.bind 'reset', task_list.addTasks
 			tasks.bind 'remove', task_list.change

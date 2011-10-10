@@ -5,5 +5,8 @@ Given /^I am logged in$/ do
    Given %{I press "Sign in"}
 end
 
-
+When /^I wait$/ do
+  wait_for_ajax
+  sleep 1
+end
 

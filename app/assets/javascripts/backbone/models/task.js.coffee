@@ -49,7 +49,21 @@ class Privydo.Models.Task extends Backbone.Model
 		'doneDate' : m.get 'doneDate'
 		'order' : m.get 'order'
 		'contexts': m.get 'contexts'
+	
+	putOff: ->
+		oldDate = @get('date')
+		if oldDate
+			yesterday = Date.today().addDays(-1)
+			oldDate = yesterday if oldDate.compareTo(yesterday) == -1
+			newDate = oldDate.add(1).days()
+			@save { date : newDate }
+	
+	setDone: ->
+		@save { done : true, doneDate : Date.today() }
 
+	destroy: ->
+		window.tasks.remove @
+		super
 class Privydo.Models.Tasks extends Backbone.Collection
 	model: Privydo.Models.Task
 	url: '/tasks'
@@ -76,6 +90,5 @@ class Privydo.Models.DisplayTasks extends Privydo.Models.Tasks
 		date = task.get('date') || new Date(2998,5,1)
 		order = task.get('order') || 0
 		date_order = date.getTime() + order
-		heh = "#{date_order}|#{task.get('text').toUpperCase()}"
-		heh
+		"#{date_order}|#{task.get('text').toUpperCase()}"
 

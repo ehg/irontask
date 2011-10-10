@@ -77,27 +77,27 @@
       overflow: hidden;
       visibility: hidden;
     }
-    #task-list li.editing_text, li.editing_date {
+    #task-list li.editing_task_text, li.editing_task_date {
       padding: 0;
       border-bottom: 0;
     }
-  #task-list .editing_text .task_text,
+  #task-list .editing_task_text .task_text,
   #task-list .edit_text {
     display: none;
   }
-  #task-list .editing_date .task_date,
+  #task-list .editing_task_date .task_date,
   #task-list .edit_date {
     display: none;
   }
-    #task-list .editing_text .edit_text {
+    #task-list .editing_task_text .edit_text {
       display: block;
     }
-    #task-list .editing_date .edit_date {
+    #task-list .editing_task_date .edit_date {
       display: inline;
       float: right;
     }
 
-    #task-list .editing_text input {
+    #task-list .editing_task_text input {
       width: 550px;
       font-size: 18px;
       font-family: inherit;
@@ -108,7 +108,7 @@
       border: 1px solid #999999;
     }
     
-    #task-list .editing_date input {
+    #task-list .editing_task_date input {
       width: 100px;
       font-size: 18px;
       font-family: inherit;

@@ -36,16 +36,6 @@ describe "Tasks Routes", ->
 			beforeEach ->
 				@router.index()
 
-			it "creates a Task list collection", ->
-				expect(@taskCollectionStub).toHaveBeenCalledOnce()
-				expect(@taskCollectionStub).toHaveBeenCalledWithExactly()
-
 			it "creates a Task list view", ->
 				expect(@taskListViewStub).toHaveBeenCalledOnce()
-				expect(@taskListViewStub).toHaveBeenCalledWith( {collection: @collection} )
-
-			it "fetches the Task list from the server", ->
-				expect(@fetchStub).toHaveBeenCalledOnce()
-				expect(@fetchStub).toHaveBeenCalledWith()
-
 

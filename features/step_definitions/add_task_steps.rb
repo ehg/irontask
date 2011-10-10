@@ -3,6 +3,8 @@ Given /^I have signed up$/ do
   When %{I fill in "username" with "jackbauer"}
   When %{I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
   When %{I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
+  When %{I fill in "secret" with "please"}
+  When %{I wait}
   When %{I press "Sign me up!"}
   end
 
@@ -42,21 +44,36 @@ When /^I reload the page$/ do
 end
 
 Given /^I have entered my tasks for today$/ do
+  laundry_day = Date.today.to_time.advance(:days => 2).to_date.strftime "%A"
   When %{I select the "Home" list}
   When %{I fill in "add_task" with "Buy cheese and milk and bread for yesterday" and press enter}
   When %{I fill in "add_task" with "Tidy up room for today" and press enter}
-  When %{I fill in "add_task" with "Do laundry for monday" and press enter}
+  When %{I fill in "add_task" with "Do laundry for #{laundry_day}" and press enter}
   When %{I fill in "add_task" with "Pay credit card bill for 29/12/11" and press enter}
   When %{I select the "Work" list}
   When %{I fill in "add_task" with "Write cucumber features for today" and press enter}
   When %{I fill in "add_task" with "Sort Github repos for 29/12/11" and press enter}
   end
 
+Then /^I should see the date increase by one day$/ do 
+  laundry_day = Date.today.to_time.advance(:days => 3).to_date.strftime "%A"
+  if page.respond_to? :should
+    page.should have_content(laundry_day)
+  else
+    assert page.has_content?(laundry_day)
+  end
+end
+
 
 Then /^I should see the following tasks:$/ do |table|
   table.hashes.each do |hash|
     Then %{I should see "#{hash["Task"]}"}
-    Then %{I should see "#{hash["Date"]}"}
+    if hash["Task"] = "Do laundry"
+      laundry_day = Date.today.to_time.advance(:days => 2).to_date.strftime "%A"
+      Then %{I should see "#{laundry_day}"}
+    else
+      Then %{I should see "#{hash["Date"]}"}
+    end
   end
 end
 

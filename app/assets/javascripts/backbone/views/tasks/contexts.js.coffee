@@ -1,24 +1,21 @@
 class Privydo.Views.Contexts extends Backbone.View
 	tagName: 'ul'
-	el: '#contexts'
 
-	events:
-		'click img'	:	'addNew'
 
 	initialize: ->
-		_.bindAll @, 'addContexts', 'addContext', 'reorder', 'addNew'
+		_.bindAll @, 'addContexts', 'addContext', 'reorder'
+		@collection.bind 'select', @selection_changed, @
 		rubbish = new Privydo.Views.Rubbish
 
-		@$('#contexts-list').sortable
+		$(@el).sortable
 			distance: 15
 			zIndex: 2000
 			appendTo: 'body'
 			scroll: false
 			update: (event, ui) =>
-				contexts = @$('#contexts-list').find('li')
-				for el, i in contexts
+				cons = @$('#contexts-list').find('li')
+				for el, i in cons
 					model = $(el).data('model')
-					console.log model
 					if (contexts.length - 1) != i
 						model.set {order: i}, {silent : true}
 					else
@@ -26,21 +23,23 @@ class Privydo.Views.Contexts extends Backbone.View
 			start: (events, ui) =>
 				rubbish.render()
 			stop: (events, ui) =>
-				rubbish.hide()
+				rubbish.toggleBounce()
 
 	reorder: ->
-		contexts.sort()
+		@collection.sort()
 		@addContexts()
 
 	addContexts: ->
-		@$('#contexts-list').html ''
-		contexts.each @addContext
+		$(@el).html ''
+		@collection.each @addContext
 
 	addContext: (context) ->
 		view = new Privydo.Views.Context {model : context}
-		@$('#contexts-list').append view.render().el
+		$(@el).append view.render().el
 
-	addNew: ->
-		model = new Privydo.Models.Context {order : contexts.length, text : ''}
-		contexts.add model
 
+	selection_changed: (model) =>
+		if $(@el).find('.selected').length > 0
+			task_list.setSelectedContexts model.collection.selected()
+		else
+			model.save {selected: true}
