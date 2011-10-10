@@ -29,13 +29,4 @@ describe Task do
     @task.save.should be_true    
   end
 
-  it "can find all tasks not yet done" do
-    2.times { Task.make( :done => false).save! }
-    Task.undone_tasks.size.should == 2
-  end
-
-  it "can find all tasks marked as done" do
-    2.times { Task.make.save! }
-    Task.done_tasks.size.should == 2
-  end
 end

@@ -13,15 +13,15 @@ Feature: User can enter a new task
 		And I reload the page
 		Then I should see "Do gardening"
 
-	Scenario: A task is entered with no due date and three lists selected
-		When I select the "Home" list
-		And I select the "Work" list
-		And I fill in "add_task" with "Make tea" and press enter
-		And I reload the page
-		And I select the "Home" list
-		Then I should see "Make tea"
-		And I select the "Work" list
-		Then I should see "Make tea"
+		#	Scenario: A task is entered with no due date and three lists selected
+		#		When I select the "Home" list
+		#		And I select the "Work" list
+		#		And I fill in "add_task" with "Make tea" and press enter
+		#		And I reload the page
+		#		And I select the "Home" list
+		#		Then I should see "Make tea"
+		#		And I select the "Work" list
+		#		Then I should see "Make tea"
 
 	Scenario: A UK format date is specified for a task
 		When I select the "Home" list

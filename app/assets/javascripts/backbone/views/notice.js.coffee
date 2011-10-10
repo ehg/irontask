@@ -22,10 +22,11 @@ class Privydo.Views.Notice extends Backbone.View
 		@
 
 	parseErrors: (json) ->
-		display = ''
+		display = "<ul class='notice-list'>"
 		for field, errorText of jQuery.parseJSON(json)
-			display += "<li>#{field} #{errorText}</li>"
-		display
+			display += "<li>#{errorText}</li>"
+		@displayLength = @displayLength * 2
+		display + '</ul>'
 
 
 class Privydo.Views.Error extends Privydo.Views.Notice

@@ -60,7 +60,7 @@ describe "Context model", ->
 		@contexts.add new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
 		@contexts.add @context
 
-		console.log @context.save { text : 'At the G', order : 3, selected : false }
+		@context.save { text : 'At the G', order : 3, selected : false }
 		expect(@eventSpy.called).toBeFalsy()
 
 describe "Context collection", ->
@@ -80,28 +80,28 @@ describe "Context collection", ->
 			expect(@contexts.at 2).toBe @c4
 			expect(@contexts.at 3).toBe @c1
 
-	describe "Server", ->
-		beforeEach ->
-			window.username = 'chris'
-			writeSessionCookie 'key', 'secret'
-			@server = sinon.fakeServer.create()
-			@server.respondWith 'GET', '/users/chris', @validResponse @fixtures.MetaData.valid
-			@contexts = new Privydo.Models.Contexts
-
-		afterEach ->
-			@server.restore()
-			deleteCookie 'key'
-
-		it "should make the correct request", ->
-			@contexts.fetch()
-			expect(@server.requests.length).toEqual(1)
-			expect(@server.requests[0].method).toEqual 'GET'
-			expect(@server.requests[0].url).toEqual '/users/chris'
-
-		it "should parse the context from the encrypted metadata", ->
-			@contexts.fetch()
-			@server.respond()
-			expect(@contexts.length).toEqual 2
-			expect(@contexts.at(0).get('text')).toEqual 'Home'
-
-		
+#	describe "Server", ->
+#		beforeEach ->
+#			window.username = 'chris'
+#			writeSessionCookie 'key', 'secret'
+#			@server = sinon.fakeServer.create()
+#			@server.respondWith 'GET', '/users/chris', @validResponse @fixtures.MetaData.valid
+#			@contexts = new Privydo.Models.Contexts
+#
+#		afterEach ->
+#			@server.restore()
+#			deleteCookie 'key'
+#
+#		it "should make the correct request", ->
+#			@contexts.fetch()
+#			expect(@server.requests.length).toEqual(1)
+#			expect(@server.requests[0].method).toEqual 'GET'
+#			expect(@server.requests[0].url).toEqual '/users/chris'
+#
+#		it "should parse the context from the encrypted metadata", ->
+#			@contexts.fetch()
+#			@server.respond()
+#			expect(@contexts.length).toEqual 2
+#			expect(@contexts.at(0).get('text')).toEqual 'Home'
+#
+#		

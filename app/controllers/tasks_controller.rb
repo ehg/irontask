@@ -1,24 +1,22 @@
 class TasksController < ApplicationController
   before_filter :authenticate
-  respond_to :html, :json
-
+  respond_to :json
 
   def authenticate
     warden.authenticate!
   end
 
   def index
-    case params[:done]
-      when "1"
-        respond_with Task.done_tasks(user).map { |t|   JSON(t.content) }
-      else 
-        respond_with Task.undone_tasks(user).map { |t|   { :id => t.id, 
-                                                     :content => t.content,
-                                                     :done => t.done 
-                                                    } 
-                                           }
+    respond_to do |format|
+      format.html
+      format.json { render :json => Task.tasks(user).map { |t|   { :id => t.id, 
+                                                       :content => t.content,
+                                                       :done => t.done 
+                                                     } 
+                                             }
+                  }
     end
-  end
+   end
 
   def create
     task = Task.new :content => params[:content], :done => params[:done] 

@@ -16,7 +16,7 @@ Feature: Management of tasks
 			| Task                          | Date      	|
 			| Buy cheese and milk and bread | Yesterday 	|
 			| Tidy up room                  | Today     	|
-			| Do laundry                    | Monday	  	|
+			| Do laundry                    | {Calced}	  |
 			| Pay credit card bill          | 29/12/2011  |
 
 			#	Scenario: A list of tasks is shown with two lists selected
@@ -42,7 +42,7 @@ Feature: Management of tasks
 		When I select the "Home" list
 		And I put off "Do laundry"
 		And I reload the page
-		Then I should see "Tuesday"
+		Then I should see the date increase by one day 
 
 	Scenario: A task's text is modified
 		When I select the "Home" list

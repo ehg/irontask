@@ -119,6 +119,19 @@ div#notice-bar
   color: #387539;
 }
 
+div#notice-bar ul
+{
+  text-decoration: none;
+  list-style-type: none;
+  padding-right: 10px;
+}
+
+div#notice-bar li
+{
+  display: inline;
+  text-decoration: none;
+}
+
 div#notice-bar.error 
 {
   color: #800e1e;

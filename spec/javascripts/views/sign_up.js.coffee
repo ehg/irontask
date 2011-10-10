@@ -1,27 +1,37 @@
 describe "Sign up view", ->
 
 	beforeEach ->
-		model = new Backbone.Model { username: 'chris' }
-		model.username_available = (username) ->
+		$.fx.off = true
+		@clock = sinon.useFakeTimers()
+		@username = ''
+		@model = new Backbone.Model { username: 'chris' }
+		@model.username_available = (username) ->
 			result = username != 'chris'
-			console.log 'chris'
 			@.trigger 'username_taken', result
-			
-		@view = new Privydo.Views.Signup {model: model}
+		@model.validate_username = (username) ->
+			false
+		@model.validate_password = (password) ->
+			true
+		@model.validate_confirm = (p, c, call) ->
+			false
+		@model.valid_fields = ->
+			false
+		@model.new = ->
+		@view = new Privydo.Views.Signup {model: @model}
 		setFixtures "<div id='app'></div>"
+
+	afterEach ->
+		$.fx.off = false
+		@clock.restore()
 	
 	it "should create a form element", ->
 		expect(@view.el.nodeName).toEqual("DIV")
 	
-	xit "should have a class of 'signup'", ->
-		expect($(@view.el)).toHaveClass('signup')
-
 	it "returns the view object", ->
 		expect(@view.render()).toEqual(@view)
 
 
 	describe "Validation", ->
-
 		beforeEach ->
 			@view.render()
 
@@ -29,7 +39,7 @@ describe "Sign up view", ->
 			beforeEach ->
 				@sidetip = $(@view.el).find('#sidetip-username')
 				@field = $(@view.el).find('input[name=username]')
-				@spy = sinon.spy @view, "is_username_empty"
+				@spy = sinon.spy @view.model, "validate_username"
 
 			it "displays a username input and sidetip", ->
 				expect(@field).toBeVisible()
@@ -41,18 +51,29 @@ describe "Sign up view", ->
 
 			it "checks if username is empty on keyup", ->
 				@field.keyup()
+				@clock.tick 1000
 				expect(@spy).toHaveBeenCalledOnce()
 
 			it "shows an error if the username is empty", ->
-				@view.is_username_empty()
+				@field.blur()
 				expect(@sidetip).toHaveText "A user name or email address is required!"
 				expect(@sidetip).toHaveClass 'error'
 
 			it "shows an error if the username is already taken", ->
+				@model.validate_username = (username) ->
+					@.trigger 'username_taken', false
 				@field.val 'chris'
 				@field.blur()
 				expect(@sidetip).toHaveText "That's taken :( Please choose another."
 				expect(@sidetip).toHaveClass 'error'
+			
+			it "shows a message if the username is available", ->
+				@model.validate_username = (username) ->
+					@.trigger 'username_taken', true
+				@field.val 'chris'
+				@field.blur()
+				expect(@sidetip).toHaveText "Fantastic, that's available."
+				expect(@sidetip).toHaveClass 'valid'
 
 		describe "Next to password field", ->
 			beforeEach ->
@@ -77,6 +98,8 @@ describe "Sign up view", ->
 				expect(@sidetip).toHaveClass('badPass')
 
 			it "shows an error when the password is empty", ->
+				@model.validate_password = (password) ->
+					false
 				@field.keyup()
 				expect(@sidetip).toHaveText('A password is required!')
 				expect(@sidetip).toHaveClass('error')
@@ -114,10 +137,11 @@ describe "Sign up view", ->
 
 				jasmine.Clock.tick(2000)
 
-				console.log spy.callCount
 				expect(spy).toHaveBeenCalled()
 
 			it "shows an error if the password doesn't match the confirmed password", ->
+				@model.validate_confirm = (p, c, call) ->
+					call.donotmatch()
 				@confirm_password.val 'test'
 				$(@view.el).find('input[name=password]').val 'notsame'
 				@view.valid_confirm_password()
@@ -125,12 +149,16 @@ describe "Sign up view", ->
 				expect(@confirm_tip).toHaveClass "error"
 		
 			it "shows an error when the field is empty", ->
+				@model.validate_confirm = (p, c, call) ->
+					call.empty()
 				@confirm_password.val ''
 				@view.valid_confirm_password()
 				expect(@confirm_tip).toHaveText "Please confirm your password!"
 				expect(@confirm_tip).toHaveClass "error"
 
 			it "shows a message when the password matches", ->
+				@model.validate_confirm = (p, c, call) ->
+					call.success()
 				@confirm_password.val 'verymuchsame'
 				$(@view.el).find('input[name=password]').val 'verymuchsame'
 				@view.valid_confirm_password()
@@ -138,7 +166,7 @@ describe "Sign up view", ->
 				expect(@confirm_tip).toHaveClass "valid"
 			
 			it "checks the confirmed password when the password is modified (only when password not empty)", ->
-				spy = sinon.spy @view, "passwords_are_same"
+				spy = sinon.spy @view, "valid_confirm_password"
 				@confirm_password.val 'verymuchsame'
 				$(@view.el).find('input[name=password]').val 'verymuchsame'
 				@view.valid_confirm_password()
@@ -146,13 +174,22 @@ describe "Sign up view", ->
 				$(@view.el).find('input[name=password]').keyup()
 				expect(spy).toHaveBeenCalledTwice()
 
-		it "shakes the sign me up button and doesn't submit the form if there are errors", ->
-			#
-	
-	xit "submits the login form when the Sign up button is pressed", ->
-		@view.render()
-		expect(@view.el).toBeTruthy()
-		expect(@view.el.find('input').is('input')).toBeTruthy()
-
+		it "shakes the sign me up button if there are errors", ->
+			spy = sinon.spy @view, "shake_button"
+			$(@view.el).find('button').click()
+		
+		it "only submits the login form when the Sign up button is pressed if fields are valid", ->
+			@model.validate_username = (username) ->
+				true
+			@model.validate_password = (password) ->
+				true
+			@model.validate_confirm = (p, c, call) ->
+				true
+			@model.valid_fields  = ->
+				true
+			spy = sinon.spy @model, "new"
+			
+			$(@view.el).find('button').click()
+			expect(spy).toHaveBeenCalled()
 
 
