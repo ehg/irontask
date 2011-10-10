@@ -101,7 +101,7 @@ jasmine.JQuery.browserTagCaseIndependentHtml = function(html) {
 };
 
 jasmine.JQuery.elementToString = function(element) {
-  return $('<div />').append(element.clone()).html();
+  return $('<div />').append($(element).clone()).html();
 };
 
 jasmine.JQuery.matchersClass = {};
@@ -214,8 +214,11 @@ jasmine.JQuery.matchersClass = {};
     var builtInMatcher = jasmine.Matchers.prototype[methodName];
 
     jasmine.JQuery.matchersClass[methodName] = function() {
-      if (this.actual instanceof jQuery) {
-        var result = jQueryMatchers[methodName].apply(this, arguments);
+      if (this.actual
+			&& (this.actual instanceof jQuery || jasmine.isDomNode(this.actual)))
+	{			
+this.actual = $(this.actual)     
+   var result = jQueryMatchers[methodName].apply(this, arguments);
         this.actual = jasmine.JQuery.elementToString(this.actual);
         return result;
       }
@@ -243,7 +246,7 @@ beforeEach(function() {
           "Expected event " + this.actual + " not to have been triggered on" + selector
         ];
       };
-      return jasmine.JQuery.events.wasTriggered(selector, this.actual);
+      return jasmine.JQuery.events.wasTriggered($(selector), this.actual);
     }
   })
 });
