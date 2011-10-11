@@ -137,6 +137,14 @@ describe "Task view", ->
 				ev.srcElement.className = 'task_date'
 				@task.find('.task .task_date span').trigger ev
 				expect(@task).toHaveClass 'editing_task_date'
+
+			it "should hide the put off button", ->
+				runs ->
+					@task.mouseenter()
+				waits 100
+				runs ->
+					expect($('.task-menu .tick')).toBeVisible()
+					expect($('.task-menu .putoff')).toBeHidden()
 	
 		describe "When tick clicked", ->
 			it "calls the done method", ->
