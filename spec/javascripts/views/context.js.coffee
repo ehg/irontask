@@ -49,7 +49,7 @@ describe "Views: Context", ->
 				expect(@spy).toHaveBeenCalledOnce()
 	
 			it "saves context when enter pressed", ->
-				e = $.Event 'keypress'
+				e = $.Event 'keyup'
 				e.keyCode = 13
 				@context.find('input').trigger e
 				expect(@spy).toHaveBeenCalledOnce()
