@@ -6,7 +6,7 @@ class Privydo.Views.Context extends Backbone.View
 	events :
 		'doubleclick span.context'	: 'edit'
 		'singleclick span.context' 		: 'select'
-		'keypress input'				: 'update_on_enter'
+		'keyup input'				: 'update_on_enter'
 
 	initialize: ->
 		_.bindAll @, 'render'
@@ -33,13 +33,15 @@ class Privydo.Views.Context extends Backbone.View
 		, 1
 
 	close: =>
-		@model.save { text : @input.val() }
-		$(@el).removeClass 'editing'
-		if @new
-			@model.select()
-			@new = false
+		@model.save { text : @input.val() },
+			error: (m, res) ->
+				new Privydo.Views.Error {message: res.responseText or res}
+			success: ->
+				$(@el).removeClass 'editing'
+				(@model.select() or @new = false) if @new == true
 
 	update_on_enter: (e) ->
+		@new && @model.destroy() && @remove() if e.keyCode == 27
 		@close() if e.keyCode == 13
 
 	select: (e) =>
