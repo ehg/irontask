@@ -49,11 +49,21 @@ class Privydo.Views.Task extends Backbone.View
 		if date
 			date_text = date.toString 'd/M/yyyy'
 			$(@el).addClass date.toString 'dMyyyy'
-			date_text = date.toString('dddd') if date.between(Date.today(), Date.today().addDays(7))
-			date_text = 'Yesterday' if date.equals(Date.today().addDays(-1))
-			(date_text = 'Today') && $(@el).addClass 'today' if date.equals(Date.today())
-			(date_text = 'Tomorrow') && $(@el).addClass 'tomorrow' if date.equals(Date.today().addDays(1))
-			$(@el).addClass 'overdue' if date.compareTo(Date.today()) == -1
+			in_next_week = date.between(Date.today(), Date.today().addDays(7))
+			yesterday = date.equals(Date.today().addDays(-1))
+			today = date.equals(Date.today())
+			tomorrow = date.equals(Date.today().addDays(1))
+			overdue = date.compareTo(Date.today()) == -1
+
+			date_text = date.toString('dddd') if in_next_week
+			date_text = 'Yesterday' if yesterday
+			date_text = 'Today' if today
+			date_text = 'Tomorrow' if tomorrow
+			
+			$(@el).toggleClass('overdue', overdue)
+			$(@el).toggleClass('tomorrow', tomorrow)
+			$(@el).toggleClass('today', today)
+
 			@$('.task_date').text date_text
 		else
 			$(@el).addClass 'no-date'
@@ -92,4 +102,5 @@ class Privydo.Views.Task extends Backbone.View
 
 	setDone: =>
 		@model.setDone()
+		
 
