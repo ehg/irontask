@@ -73,7 +73,7 @@ class Privydo.Models.Contexts extends Backbone.Collection
 
 	selectSingle: (context) ->
 		@each (c) ->
-			c.set {'selected' : c.id == context.id}, {silent : true}
+			c.set {'selected' : c.id == context.id}
 
 	selected: ->
 		@filter (m) ->
@@ -82,4 +82,4 @@ class Privydo.Models.Contexts extends Backbone.Collection
 	context_removed: (model, collection) ->
 		model.sync('update', model, {})
 		selected = _.without( @selected(), model )
-		if !selected or selected.length == 0 then @at(0).select() else selected[0].select()
+		if !selected or selected.length == 0 then @at(0).select()

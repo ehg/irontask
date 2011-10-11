@@ -64,21 +64,54 @@ describe "Context model", ->
 		expect(@eventSpy.called).toBeFalsy()
 
 describe "Context collection", ->
+	beforeEach ->
+		@contexts = new Privydo.Models.Contexts
+		@c1 = new Privydo.Models.Context { text : 'At the Gates', order : 3, selected : false }
+		@c2 = new Privydo.Models.Context { text : 'Biscuit', order : 0, selected : false }
+		@c3 = new Privydo.Models.Context { text : 'Egg', order : 1, selected : true }
+		@c4 = new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
+
 	describe "Ordering", ->
-		beforeEach ->
-			@contexts = new Privydo.Models.Contexts
-			@c1 = new Privydo.Models.Context { text : 'At the Gates', order : 3, selected : false }
-			@c2 = new Privydo.Models.Context { text : 'Biscuit', order : 0, selected : false }
-			@c3 = new Privydo.Models.Context { text : 'Egg', order : 1, selected : false }
-			@c4 = new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
-
-
 		it "should order the models by order", ->
 			@contexts.add [@c1, @c2, @c3, @c4]
 			expect(@contexts.at 0).toBe @c2
 			expect(@contexts.at 1).toBe @c3
 			expect(@contexts.at 2).toBe @c4
 			expect(@contexts.at 3).toBe @c1
+	
+	describe "Operations", ->
+		beforeEach ->
+			@contexts.add [@c1, @c2, @c3, @c4]
+
+		it "selects a single context (deselecting the other ones)", ->
+			@contexts.selectSingle @c2
+			expect(@c1.get('selected')).toBeFalsy()
+			expect(@c2.get('selected')).toBeTruthy()
+			expect(@c3.get('selected')).toBeFalsy()
+			expect(@c4.get('selected')).toBeFalsy()
+
+		it "returns a list of selected contexts", ->
+			selected = @contexts.selected()
+			expect(selected.length).toEqual 2
+
+		describe "When a context has been removed", ->
+			beforeEach ->
+				@spy = sinon.spy @c1, "sync"
+
+			it "calls sync on the model", ->
+				@contexts.remove @c1
+				expect(@spy).toHaveBeenCalledOnce()
+				expect(@spy).toHaveBeenCalledWith 'update', @c1
+
+			it "selects the first context if there are no other contexts selected", ->
+				@contexts.selectSingle @c1
+				@contexts.remove @c1
+				expect(@contexts.selected()[0]).toBe @c2
+
+			it "leaves the selections as they are if there are any other contexts selected", ->
+				@contexts.remove @c3
+				expect(@contexts.selected()[0]).toBe @c4
+						
 
 #	describe "Server", ->
 #		beforeEach ->
