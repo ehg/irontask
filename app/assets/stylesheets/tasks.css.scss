@@ -23,13 +23,6 @@
     #create-task input::-webkit-input-placeholder {
       font-style: italic;
     }
-  #create-task span {
-    position: absolute;
-    z-index: 999;
-    width: 170px;
-    left: 50%;
-    margin-left: -85px;
-  }
 
 #task-list {
   width: 780px;
