@@ -1,3 +1,4 @@
+#= require jquery.watermark.min
 class Privydo.Views.TaskPage extends Backbone.View
 	template: JST['backbone/templates/tasks/page']
 
@@ -11,9 +12,10 @@ class Privydo.Views.TaskPage extends Backbone.View
 	error: (model, col) ->#TODO: what's col?
 		new Privydo.Views.Error {message: col}
 
-	render: ->#TODO: method too big. split up
+	render: ->
 		$(@el).html @template
 		@input = @$("#add_task")
+		@input.watermark()
 		@input.focus()
 
 	add_on_enter: (e) -> #move bulk to model
@@ -38,7 +40,7 @@ class Privydo.Views.TaskPage extends Backbone.View
 
 	extract_date: -> #move to model
 		val = @input.val()
-		re = new RegExp(".*(for (.*))", "i")
+		re = new RegExp(".*((for|on) (.*))", "i")
 		m = re.exec val
 		if m?
 			last_match = m[m.length - 1]
