@@ -6,6 +6,8 @@ $(document).ajaxStart ->
 	$('#main').fadeTo 'fast', 0.4
 $(document).ajaxStop ->
 	$('#main').fadeTo 'fast', 1.0
+$.ajaxSetup
+	cache: false
 
 class Privydo.Routers.TasksRouter extends Backbone.Router
 	routes:
