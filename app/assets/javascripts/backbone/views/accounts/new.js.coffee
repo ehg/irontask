@@ -22,6 +22,10 @@ class Privydo.Views.Signup extends Backbone.View
 		$(@el).html this.template()
 		$('#app').html @el #attach to different el
 		@set_fields()
+		@username_input.watermark()
+		#@password_input.watermark()
+		@confirm_input.watermark()
+		@magic_input.watermark()
 		@password_input.passStrength {userid: @username_input}
 		@
 	
@@ -64,34 +68,32 @@ class Privydo.Views.Signup extends Backbone.View
 
 	is_password_empty: ->
 		if !@model.validate_password @password_input.val()
-			$('#sidetip-password').text "A password is required!"
-			$('#sidetip-password').attr 'class', 'error'
+			@set_tip "A password is required!", @password_input, false
 
 	valid_confirm_password: ->
 		@model.validate_confirm @password_input.val(), @confirm_input.val(),
 			empty: =>
-				@$('#sidetip-confirm_password').text "Please confirm your password!"
-				@$('#sidetip-confirm_password').attr 'class', 'error'
+				@set_tip "Please confirm your password!", @confirm_input, false
 			donotmatch: =>
-				@$('#sidetip-confirm_password').text "This doesn't match your password!"
-				@$('#sidetip-confirm_password').attr 'class', 'error'
+				@set_tip "This doesn't match your password!", @confirm_input, false
 			success: =>
-				@$('#sidetip-confirm_password').text "Passwords match!"
-				@$('#sidetip-confirm_password').attr 'class', 'valid'
+				@set_tip "Passwords match!", @confirm_input, true
 
 	username_taken: ->
 		if !@model.validate_username(@username_input.val())
-			@$('#sidetip-username').text	"A user name or email address is required!"
-			@$('#sidetip-username').attr 'class', 'error'
+			@set_tip	"A user name or email address is required!", @username_input, false
 
 	is_username_taken: (available) ->
 		if available
-			@$('#sidetip-username').text "Fantastic, that's available."
-			@$('#sidetip-username').attr 'class', 'valid'
+			@set_tip "Fantastic, that's available.", @username_input, true
 			@model.valid_username = true
 		else
-			@$('#sidetip-username').text "That's taken :( Please choose another."
-			@$('#sidetip-username').attr 'class', 'error'
+			@set_tip "That's taken :( Please choose another.", @username_input, false
+
+	set_tip: (text, input, isValid) ->
+		label = $("label[for=#{input.attr 'name'}]")
+		label.text  text
+		label.attr 'class', if isValid then 'valid' else 'error'
 
 	shake_button: ->
 		@$('div.submit button').effect 'shake', {times: 3, distance: 5}, 100
