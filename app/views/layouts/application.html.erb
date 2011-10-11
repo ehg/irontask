@@ -1,76 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>irontask</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <style type="text/css" media="screen">
-    p {
-      border: 1px solid #000;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-</head>
-<body>
-  
-  <div id="footer-container">
-  <div class="row">
-  <div class="column grid_10">
-        <div class="rubbish">
-        </div>
-  <div id="footer">
-      <ul>
-        <li><a>&copy; Jumpwire Limited 2011</a></li>
-        <li><a>Terms and Conditions</a></li>
-        <li><a>Privacy policy</a></li>
-        <li><a>Contact</a></li>
-      </ul>
-    </div> 
-  </div>
-</div>
- </div>
+  <head>
+    <title>irontask</title>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <style type="text/css" media="screen">
+      p {
+        border: 1px solid #000;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
 
-
-  <div id="content">    
-    <div class="row border"> 
-   <div class="column grid_10">
-     <div id="topbar">
-       <div id="logout">
-          <% if user %>
-          <%= URI.escape user.username %>
-          <%= link_to '(sign out)', session_path, :method => :delete %>
-        <% end %>
-       </div>
-
-      <div id="logo">
-        <a href="/"><img src="/assets/logo.png"></a>
-      </div>
-      <div id="navigation"> 
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">My Settings</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Done tasks</a></li>
-        </ul>
+    <div id="footer-container">
+      <div class="row">
+        <div class="column grid_10">
+          <div class="rubbish">
+          </div>
+          <div id="footer">
+            <ul>
+              <li><a>&copy; Jumpwire Limited 2011</a></li>
+              <li><a>Terms and Conditions</a></li>
+              <li><a>Privacy policy</a></li>
+              <li><a>Contact</a></li>
+            </ul>
+          </div> 
         </div>
       </div>
-      <div id="notice-container">
-       <div id="notice-bar">
-          <%= flash[:notice] %>
-        </div>
-        <% if flash[:notice] %>
-          <script>
-            new Privydo.Views.Notice( {message: '<%= flash[:notice] %>'});
-          </script>
-        <% end %>
-        <div class="rubbish">
-        </div>
+    </div>
+    <div id="content">    
+      <div class="row border"> 
+        <div class="column grid_10">
+          <div id="topbar">
+            <div id="logout">
+              <% if user %>
+                <%= URI.escape user.username %>
+                <%= link_to '(sign out)', session_path, :method => :delete %>
+              <% end %>
+            </div>
+
+            <div id="logo">
+              <a href="/"><img src="/assets/logo.png"></a>
+            </div>
+            <div id="navigation"> 
+              <ul>
+                <li><%= link_to "Home", root_path %></li>
+                <% if user %> <li><a href="#">My Settings</a></li> <% end %>
+                <li><a href="#">Help</a></li>
+              </ul>
+            </div>
+          </div>
+          <div id="notice-container">
+            <div id="notice-bar">
+              <%= flash[:error] || flash[:notice] %>
+            </div>
+            <% if flash[:notice] %>
+              <script>
+                new Privydo.Views.Notice( {message: '<%= flash[:notice] %>'});
+              </script>
+            <% elsif flash[:error] %>
+              <script>
+                new Privydo.Views.Error( {message: '<%= flash[:error] %>'});
+              </script>
+            <% end %>
+            <div class="rubbish">
+            </div>
+          </div>
+        </div>  
       </div>
-  </div>  
- </div>
-    <%= yield %>
-</div>
-</body>
+      <%= yield %>
+    </div>
+  </body>
 </html>
