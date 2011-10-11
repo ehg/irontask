@@ -15,7 +15,7 @@ module NavigationHelpers
       new_session_path
 
     when /the sign up page/
-      new_user_path 
+      new_account_path 
     
     when /the tasks page/
       '/tasks'
