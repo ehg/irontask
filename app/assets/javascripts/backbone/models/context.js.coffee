@@ -16,7 +16,7 @@ class Privydo.Models.Context	extends Backbone.Model
 	validate: (attrs) ->
 		return "invalid guid" if 'id' of attrs and !Privydo.Guid.is_valid(attrs.id)
 		return "invalid text" if 'text' of attrs and attrs.text.length < 1
-		return "text too long" if 'text' of attrs and attrs.text.length > 10
+		return "text too long" if 'text' of attrs and attrs.text.length > 18
 		return "no order" if 'order' of attrs and !_.isNumber(attrs.order)
 		return "no selection" if 'selected' of attrs and attrs.selected == null
 
