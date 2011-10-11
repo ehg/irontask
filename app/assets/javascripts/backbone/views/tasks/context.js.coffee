@@ -10,6 +10,7 @@ class Privydo.Views.Context extends Backbone.View
 
 	initialize: ->
 		_.bindAll @, 'render'
+		@model.bind 'change:selected', @selection_changed, @
 
 	render: ->
 		@setContent()
@@ -49,5 +50,7 @@ class Privydo.Views.Context extends Backbone.View
 				@model.select(true)
 			else
 				@model.select()
-			$(@el).addClass 'selected'
 		return false
+
+	selection_changed: ->
+		$(@el).toggleClass 'selected', @model.get 'selected'
