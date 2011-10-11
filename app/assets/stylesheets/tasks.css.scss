@@ -192,7 +192,19 @@ ul#contexts-list {
   }
 
   #contexts .editing input {
-    width: 70px;
+    width: 160px;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 0.5em;
+    border: 0;
+    outline: none;
+    padding: 2px;
+    border: 1px solid #999999;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   }
 
 #add-context 
