@@ -17,7 +17,6 @@ class Privydo.Views.Task extends Backbone.View
 	initialize: ->
 		_.bindAll @, 'render'
 		@model.bind 'change', @render, @
-		@model.bind 'change:done', @display_as_done, @
 
 	render: ->
 		$(@el).html(@template(@options.model.toJSON()))
@@ -52,7 +51,7 @@ class Privydo.Views.Task extends Backbone.View
 		date_text = null
 		if date
 			date_text = date.toString 'd/M/yyyy'
-			$(@el).addClass date.toString 'dMyyyy'
+			$(@el).attr 'class', date.toString 'dMyyyy'
 			in_next_week = date.between(Date.today(), Date.today().addDays(7))
 			yesterday = date.equals(Date.today().addDays(-1))
 			today = date.equals(Date.today())
@@ -70,7 +69,7 @@ class Privydo.Views.Task extends Backbone.View
 
 			@$('.task_date').text date_text
 		else
-			$(@el).addClass 'no-date'
+			$(@el).attr 'class', 'no-date'
 		date_text
 	
 	display_as_done: ->
