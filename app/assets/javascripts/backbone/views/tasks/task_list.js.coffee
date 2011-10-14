@@ -7,14 +7,16 @@ class Privydo.Views.TaskList extends Backbone.View
 		@setSortable()
 
 	change: ->
-		console.log 'change'
 		@setSelectedContexts contexts.selected()
 		@collection.sort()
 		@addTasks()
 
 	addTasks: ->
-		$(@el).html ''
-		@collection.each @addTask
+		if @collection.length > 0
+			$(@el).html ''
+			@collection.each @addTask
+		else
+			$(@el).html "<span id='task-placeholder'>You haven't got anything to do!</span>"
 		@
 
 	addTask: (task) ->
@@ -37,6 +39,8 @@ class Privydo.Views.TaskList extends Backbone.View
 			update: (event, ui) =>
 				@saveSortOrder()
 			stop: (events, ui) =>
+				$(@el).sortable 'option', 'items', "li"
+				$(@el).sortable 'refresh'
 				rubbish.toggleBounce()
 
 	setSortableItems: (ui) ->
