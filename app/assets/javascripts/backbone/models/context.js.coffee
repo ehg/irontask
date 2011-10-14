@@ -24,7 +24,7 @@ class Privydo.Models.Context	extends Backbone.Model
 		if method == "create" or method == "update" or method == "delete"
 			options.contentType = 'application/json'
 			options.data =
-				'metadata' : JSON.stringify(@generate_contexts())#encrypt JSON.stringify(@generate_contexts()), getCookieValue 'key'
+				'metadata' : encrypt JSON.stringify(@generate_contexts()), getCookieValue 'key'
 			options.data = JSON.stringify options.data
 		Backbone.sync method, model, options
 
@@ -65,7 +65,7 @@ class Privydo.Models.Contexts extends Backbone.Collection
 		context.get 'order'
 
 	parse: (data) ->
-		plaintext = data.metadata#decrypt data.metadata, getCookieValue 'key'
+		plaintext = decrypt data.metadata, getCookieValue 'key'
 		object = $.parseJSON plaintext
 		_.map(object.contexts, (c) ->
 			{ id : c.id, order : c.order, selected : c.selected, text : c.text }
