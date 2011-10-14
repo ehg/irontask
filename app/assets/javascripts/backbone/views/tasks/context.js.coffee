@@ -36,9 +36,11 @@ class Privydo.Views.Context extends Backbone.View
 		@model.save { text : @input.val() },
 			error: (m, res) ->
 				new Privydo.Views.Error {message: res.responseText or res}
-			success: ->
+			success: =>
 				$(@el).removeClass 'editing'
-				(@model.select() or @new = false) if @new == true
+				if @new
+					@model.select()
+					@new = false
 
 	update_on_enter: (e) ->
 		@new && @model.destroy() && @remove() if e.keyCode == 27
