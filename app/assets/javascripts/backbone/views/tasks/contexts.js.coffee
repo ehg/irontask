@@ -13,7 +13,7 @@ class Privydo.Views.Contexts extends Backbone.View
 			appendTo: 'body'
 			scroll: false
 			update: (event, ui) =>
-				cons = @$('#contexts-list').find('li')
+				cons = $(@el).find('li')
 				for el, i in cons
 					model = $(el).data('model')
 					if (contexts.length - 1) != i
