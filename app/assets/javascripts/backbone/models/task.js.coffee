@@ -57,6 +57,7 @@ class Privydo.Models.Task extends Backbone.Model
 			oldDate = yesterday if oldDate.compareTo(yesterday) == -1
 			newDate = oldDate.add(1).days()
 			@save { date : newDate }
+			@change()
 	
 	setDone: ->
 		@save { done : true, doneDate : Date.today() }
@@ -64,6 +65,7 @@ class Privydo.Models.Task extends Backbone.Model
 	destroy: ->
 		window.tasks.remove @
 		super
+	
 class Privydo.Models.Tasks extends Backbone.Collection
 	model: Privydo.Models.Task
 	url: '/tasks'
