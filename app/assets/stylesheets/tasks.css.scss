@@ -20,28 +20,33 @@
     -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   }
-    #create-task input::-webkit-input-placeholder {
-      font-style: italic;
-    }
+
+#task-placeholder {
+  display: block;
+  font-size: 22px;
+  color: #ccc;
+  padding-left: 180px;
+  padding-top: 100px;
+}
 
 #task-list {
   width: 780px;
   margin-top: 10px;
 }
   #task-list li {
-    padding: 12px 0 11px 0;
     position: relative;
     font-size: 18px;
     list-style-type: none;
     line-height: 1.1em;
     min-height: 1.1em;
-    border-bottom: 1px solid #cccccc;
   }
 
     #task-list .task
     {
       width: 699px;
+      padding: 12px 0 11px 0;
       display: inline-block;
+      border-bottom: 1px solid #cccccc;
     }  
 
     #task-list .task_text
@@ -120,7 +125,7 @@
     display: none;
     height: 3px;
     vertical-align: middle;
-    bottom: 8px;
+    top: 6px;
     position: relative;
     float: right;
   }
@@ -129,6 +134,11 @@
   {
     vertical-align: middle;
     cursor: pointer;
+  }
+
+  .task-menu img:hover
+  {
+    opacity:0.5;
   }
 
 #contexts {
