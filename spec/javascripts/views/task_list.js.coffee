@@ -3,6 +3,14 @@ describe "View: TaskList", ->
 		@view = new Privydo.Views.TaskList()
 		setFixtures "<ul id='#task-list'></ul>"
 
+	describe "Rendering when there are no tasks", ->
+		beforeEach ->
+			@view.collection = new Backbone.Collection
+			@view.addTasks()
+
+		it "should show a message", ->
+			expect($(@view.el).find '#task-placeholder').toExist()
+
 	describe "Rendering", ->
 		beforeEach ->
 			@taskView = new Backbone.View()

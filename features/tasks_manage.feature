@@ -7,10 +7,13 @@ Feature: Management of tasks
 	Background:
 		Given I have signed up 
 		And I am logged in
-		And I have entered my tasks for today
 		And I am on the tasks page
 
+	Scenario: I see a message telling me that there are no tasks yet
+		Then I should see "You haven't got anything to do!"
+
 	Scenario: A list of tasks is shown with one list selected
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		Then I should see the following tasks:
 			| Task                          | Date      	|
@@ -34,17 +37,20 @@ Feature: Management of tasks
 			#			| Sort Github repos             | 29/12/2011 	 |
 
 	Scenario: A task is marked as done
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		And I mark "Do laundry" as done
 		Then I should see "Do laundry" crossed out
 
 	Scenario: A task is put off
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		And I put off "Do laundry"
 		And I reload the page
 		Then I should see the date increase by one day 
 
 	Scenario: A task's text is modified
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		And I double click on "Do laundry"
 		And I fill in "text_input" with "Do laundry (white wash)" and press enter
@@ -52,6 +58,7 @@ Feature: Management of tasks
 		Then I should see "Do laundry (white wash)"
 
 	Scenario: A task's date is modified
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		And I double click on the "29/12/2011" date
 		And I fill in "date_input" with "29/08/11" and press enter
@@ -59,6 +66,7 @@ Feature: Management of tasks
 		Then I should see "29/8/2011"
 
 	Scenario: A task is deleted
+		Given I have entered my tasks for today
 		When I select the "Home" list
 		And I drag the "Do laundry" task to the rubbish bin
 		Then I should not see "Do laundry"
