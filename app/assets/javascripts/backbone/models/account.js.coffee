@@ -56,7 +56,7 @@ class Privydo.Models.Account extends Backbone.Model
 	new: (username, plaintext_passwd, magic_word, callbacks) ->
 		contexts = new Privydo.Models.Contexts [{text: 'Home', order: 0, selected: true},{text: 'Work', order: 1, selected: false}]
 		password = @hash(plaintext_passwd) if plaintext_passwd
-		metadata = JSON.stringify({ contexts : contexts.toJSON()})#,encrypt JSON.stringify({ contexts : contexts.toJSON()}), password
+		metadata = encrypt JSON.stringify({ contexts : contexts.toJSON()}), password
 		@save
 			username : username
 			password : password
