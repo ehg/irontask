@@ -13,12 +13,11 @@ class Privydo.Views.Notice extends Backbone.View
 		@render()
 
 	render: ->
+		$(@el).find('.notice-content').html(@display)
 		$(@el).addClass @className
-		$(@el).html(@display)
-		$(@el).hide()
-		$(@el).slideDown()
+		$(@el).fadeIn('slow')
 		jQuery.doTimeout @displayLength, =>
-			$(@el).slideUp()
+			$(@el).fadeOut('slow')
 		@
 
 	parseErrors: (json) ->

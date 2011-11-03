@@ -9,11 +9,11 @@ class Privydo.Models.Task extends Backbone.Model
 		if @get('id') > 0 then "/tasks/#{@get 'id'}" else '/tasks'
 
 	validate: (attrs) ->
-		return "no text" if 'text' of attrs and attrs.text.length < 1
-		return "text too long" if 'text' of attrs and attrs.text and attrs.text.length > 60
-		return "no done" if 'done' of attrs and !(attrs.done in [true, false])
-		return "invalid date" if 'date' of attrs and (!_.isDate(attrs.date) and attrs.date != null)
-		return "no contexts specified" if 'contexts' of attrs and (!_.isArray(attrs.contexts) or attrs.contexts.length < 1)
+		return "Please enter some text." if 'text' of attrs and attrs.text.length < 1
+		return "That's too long, sorry." if 'text' of attrs and attrs.text and attrs.text.length > 60
+		return "For some reason, done hasn't been specified." if 'done' of attrs and !(attrs.done in [true, false])
+		return "That's an invalid date, see help for more details." if 'date' of attrs and (!_.isDate(attrs.date) and attrs.date != null)
+		return "No contexts seem to have been specified" if 'contexts' of attrs and (!_.isArray(attrs.contexts) or attrs.contexts.length < 1)
 	
 	@parse: (res) ->
 		plaintext = res.content#decrypt res.content, getCookieValue 'key'
@@ -56,15 +56,23 @@ class Privydo.Models.Task extends Backbone.Model
 			yesterday = Date.today().addDays(-1)
 			oldDate = yesterday if oldDate.compareTo(yesterday) == -1
 			newDate = oldDate.add(1).days()
-			@save { date : newDate }
+			@set { date : newDate }, {silent: true}
 			@change()
+
+	putOffSave: ->
+			@save {}
+			@trigger 'resort', @
 	
-	setDone: ->
-		@save { done : true, doneDate : Date.today() }
+	toggleDone: ->
+		@save { done : not @get('done'), doneDate : Date.today() }
 
 	destroy: ->
 		window.tasks.remove @
 		super
+	
+	moveTo: (context) ->
+		@save { contexts: [context] }
+		@trigger 'resort', @
 	
 class Privydo.Models.Tasks extends Backbone.Collection
 	model: Privydo.Models.Task
@@ -76,10 +84,10 @@ class Privydo.Models.Tasks extends Backbone.Collection
 		)
 
 	done: ->
-		@filter (task) -> task.get 'done' is true
-
+		@filter (task) -> task.get('done') == true
+	
 	notdone: ->
-		@filter (task) -> task.get 'done' is false
+		@filter (task) -> task.get('done') == false
 
 	filterWithContexts: (contexts) ->
 		ids = _.map contexts, (c) ->
@@ -94,3 +102,7 @@ class Privydo.Models.DisplayTasks extends Privydo.Models.Tasks
 		date_order = date.getTime() + order
 		"#{date_order}|#{task.get('text').toUpperCase()}"
 
+	notdone_or_done_today: ->
+		new Privydo.Models.DisplayTasks @filter (task) ->
+			doneDate = task.get 'doneDate'
+			task.get('done') == false or task.get('done') is true and doneDate and doneDate.equals(Date.today())

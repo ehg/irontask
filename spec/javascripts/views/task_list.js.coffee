@@ -3,9 +3,10 @@ describe "View: TaskList", ->
 		@view = new Privydo.Views.TaskList()
 		setFixtures "<ul id='#task-list'></ul>"
 
-	describe "Rendering when there are no tasks", ->
+	describe "Rendering when there are no undone tasks", ->
 		beforeEach ->
-			@view.collection = new Backbone.Collection
+			@view.collection = new Backbone.Collection [new Backbone.Model {id:1, done: true}]
+			@view.collection.notdone = -> []
 			@view.addTasks()
 
 		it "should show a message", ->
@@ -30,6 +31,7 @@ describe "View: TaskList", ->
 				@task4
 				@task5
 			]
+			@view.collection.notdone = -> @filter (task) -> task.get('done') is false
 			@view.addTasks()
 
 		afterEach ->
