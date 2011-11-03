@@ -43,7 +43,7 @@
             </div>
 
             <div id="logo">
-              <a href="/"><img src="/assets/logo.png"></a>
+              <a href="/"><img src="/assets/logo2.png"></a>
             </div>
             <div id="navigation"> 
               <ul>
@@ -55,7 +55,7 @@
           </div>
           <div id="notice-container">
             <div id="notice-bar">
-              <%= flash[:error] || flash[:notice] %>
+              <div class='notice-content'><%= flash[:error] || flash[:notice] %></div>
             </div>
             <% if flash[:notice] %>
               <script>
