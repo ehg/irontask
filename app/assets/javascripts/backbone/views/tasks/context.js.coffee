@@ -16,7 +16,18 @@ class Privydo.Views.Context extends Backbone.View
 		@setContent()
 		$(@el).addClass 'selected' if @model.get('selected') == true
 		$(@el).data 'model', @model
-		this
+		$(@el).droppable(
+			accept: '#task-list li'
+			tolerance: 'pointer'
+			hoverClass: 'highlight'
+			drop: (e, ui) =>
+				models = []
+				for draggable, i in ui.helper
+					models.push  $($(ui.helper)[i]).data('model')
+				_.each models, (model) => model.moveTo(@model.id) if model instanceof Privydo.Models.Task
+				$(ui.helper).remove()
+		)
+		@
 
 	setContent: ->
 		$(@el).html @template @options.model.toJSON()
@@ -30,11 +41,11 @@ class Privydo.Views.Context extends Backbone.View
 		$(@el).addClass 'editing'
 		setTimeout =>
 			@input.focus()
-		, 1
+		, 0
 
 	close: =>
 		@model.save { text : @input.val() },
-			error: (m, res) ->
+			error: (m, res) =>
 				new Privydo.Views.Error {message: res.responseText or res}
 			success: =>
 				$(@el).removeClass 'editing'
