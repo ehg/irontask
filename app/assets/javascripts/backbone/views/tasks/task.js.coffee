@@ -9,14 +9,15 @@ class Privydo.Views.Task extends Backbone.View
 		'click span.task_date'						:	'edit'
 		'keypress input[name=text_input]'	: 'update_on_enter'
 		'keypress input[name=date_input]'	: 'update_on_enter'
-		'click .tick'											: 'setDone'
-		'click .putoff'										: 'putOff'
+		'click .tick, .donetick'					: 'toggleDone'
+		'mousedown .putoff'								: 'putOffStart'
+		'mouseup .putoff'									: 'putOffStop'
 		'mouseenter'											: 'displayMenu'
 		'mouseleave'											: 'hideMenu'
 
 	initialize: ->
 		_.bindAll @, 'render'
-		@model.bind 'change', @render, @
+		@model.bind 'change', @setContent, @
 
 	render: ->
 		$(@el).html(@template(@options.model.toJSON()))
@@ -73,9 +74,9 @@ class Privydo.Views.Task extends Backbone.View
 		date_text
 	
 	display_as_done: ->
-		$(@el).addClass 'done-task'
-		@$('.task-menu').hide()
-		@$('.add_date').hide()
+		$(@el).toggleClass 'done-task', @model.get 'done'
+		@$('.task-menu').hide()#refactor to css
+		@$('.add_date').hide()#"
 		#need to stop doubleclick events here
 	
 	edit: (e)->
@@ -100,10 +101,18 @@ class Privydo.Views.Task extends Backbone.View
 	update_on_enter: (e) ->
 		@close(e) if e.keyCode == 13
 
-	putOff: =>
+	putOffStart: =>
 		@model.putOff()
+		@putOffInterval = setInterval( =>
+			@model.putOff()
+		, 700)
 
-	setDone: =>
-		@model.setDone()
+	putOffStop: =>
+		console.log 'stop'
+		clearInterval @putOffInterval
+		@model.putOffSave()
+
+	toggleDone: =>
+		@model.toggleDone()
 		
 
