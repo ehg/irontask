@@ -11,4 +11,3 @@
 //= require backbone
 //= require encryption
 //= require backbone/privydo
-//= require_tree .
