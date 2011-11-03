@@ -6,9 +6,11 @@ class Privydo.Views.Rubbish extends Backbone.View
 		$('.rubbish').droppable(
 			tolerance: 'touch'
 			drop: (event, ui) =>
-				model = $(ui.draggable).data("model")
-				$(ui.draggable).remove()
-				model.destroy()
+				models = []
+				for draggable, i in ui.helper
+					models.push  $($(ui.helper)[i]).data('model')
+				_.each models, (model) -> model.destroy()
+				$(ui.helper).remove()
 		)
 
 	render: ->
