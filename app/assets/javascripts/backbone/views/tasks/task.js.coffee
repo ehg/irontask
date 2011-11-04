@@ -12,12 +12,14 @@ class Privydo.Views.Task extends Backbone.View
 		'click .tick, .donetick'					: 'toggleDone'
 		'mousedown .putoff'								: 'putOffStart'
 		'mouseup .putoff'									: 'putOffStop'
+		'mouseleave .putoff'							: 'putOffLeave'
 		'mouseenter'											: 'displayMenu'
 		'mouseleave'											: 'hideMenu'
 
 	initialize: ->
 		_.bindAll @, 'render'
 		@model.bind 'change', @setContent, @
+		@puttingOff = false
 
 	render: ->
 		$(@el).html(@template(@options.model.toJSON()))
@@ -92,7 +94,7 @@ class Privydo.Views.Task extends Backbone.View
 		srcEl = e.srcElement || e.target
 		klass = srcEl.className
 		input = @$(".#{klass}")
-		if klass.search('date') > -1 then data = {date: Date.parse input.val()} else data = {text: input.val()}
+		if klass.search('date') > -1 then data = {date: input.val()} else data = {text: input.val()}
 		@model.save data,
 			error: (model, response) ->
 				new Privydo.Views.Error({message: response.responseText or response})
@@ -102,15 +104,24 @@ class Privydo.Views.Task extends Backbone.View
 		@close(e) if e.keyCode == 13
 
 	putOffStart: =>
+		@puttingOff = true
+		clearInterval @putOffInterval
 		@model.putOff()
 		@putOffInterval = setInterval( =>
 			@model.putOff()
 		, 700)
+		false
+
+	putOffLeave: =>
+		@putOffStop()
+		@model.trigger 'resort', @ if @puttingOff
+		@puttingOff = false
 
 	putOffStop: =>
-		console.log 'stop'
-		clearInterval @putOffInterval
-		@model.putOffSave()
+		if @puttingOff
+			clearInterval @putOffInterval
+			@model.putOffSave()
+		false
 
 	toggleDone: =>
 		@model.toggleDone()
