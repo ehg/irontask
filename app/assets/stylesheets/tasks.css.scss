@@ -177,8 +177,12 @@ ul#contexts-list {
 
 #contexts-list li span {
   display:block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #4a4546;
-  font-weight: 500;
+  font-weight: bold;
   text-decoration:none;
   height:25px;
   margin:0;
@@ -199,9 +203,8 @@ ul#contexts-list {
 }
 
 #contexts-list li.selected span {
-  color: #000;
+  color: #cc3d2c;
   font-weight: bolder;
-  font-size: 18px;
 }
 
 #contexts .editing .display,
