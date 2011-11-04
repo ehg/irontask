@@ -50,6 +50,15 @@ class Privydo.Models.Task extends Backbone.Model
 		'order' : m.get 'order'
 		'contexts': m.get 'contexts'
 	
+	save: (attr, options) ->
+		if attr and attr.date
+			attr.date = attr.date.trim()
+			attr.date = "next #{attr.date}" if attr.date.toUpperCase() in ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+			attr.date = Date.parse attr.date
+			super attr, options
+		else
+			super attr, options
+
 	putOff: ->
 		oldDate = @get('date')
 		if oldDate
@@ -60,8 +69,7 @@ class Privydo.Models.Task extends Backbone.Model
 			@change()
 
 	putOffSave: ->
-			@save {}
-			@trigger 'resort', @
+		@save {}
 	
 	toggleDone: ->
 		@save { done : not @get('done'), doneDate : Date.today() }
