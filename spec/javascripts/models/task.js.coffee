@@ -7,7 +7,7 @@ describe "Task", ->
 
 	describe "validation", ->
 		beforeEach ->
-			@task = new Privydo.Models.Task
+			@task = new IronTask.Models.Task
 			@eventSpy = sinon.spy()
 			@task.bind("error", @eventSpy)
 			@attrs = _.clone taskAttributes
@@ -53,7 +53,7 @@ describe "Task", ->
 
 	describe "URL", ->
 		beforeEach ->
-			@task = new Privydo.Models.Task taskAttributes
+			@task = new IronTask.Models.Task taskAttributes
 
 		it "should have /tasks/{id} as an URL if a task has an ID", ->
 			@task.set {id : 580}
@@ -64,7 +64,7 @@ describe "Task", ->
 
 	describe "Actions", ->
 		beforeEach ->
-			@task = new Privydo.Models.Task taskAttributes
+			@task = new IronTask.Models.Task taskAttributes
 			@stub = sinon.stub @task, "save"
 
 		afterEach ->
@@ -91,11 +91,11 @@ describe "Task", ->
 
 describe "Task Collection", ->
 	beforeEach ->
-		@taskStub = sinon.stub window["Privydo"]["Models"], "Task"
+		@taskStub = sinon.stub window["IronTask"]["Models"], "Task"
 		@model = new Backbone.Model {id: 5, text: "Test"}
 		@taskStub.returns @model
-		@tasks = new Privydo.Models.DisplayTasks
-		@tasks.model = Privydo.Models.Task
+		@tasks = new IronTask.Models.DisplayTasks
+		@tasks.model = IronTask.Models.Task
 		@task1 = new Backbone.Model {id: 5, text: "Test 1"}
 		@task2 = new Backbone.Model {id: 4, text: "Test 2", date: new Date(2011, 07, 18, 12, 35, 00, 00)}
 		@task3 = new Backbone.Model {id: 3, text: "Test 3", date: new Date(2011, 08, 19) }
@@ -136,7 +136,7 @@ describe "Task Collection", ->
 		beforeEach ->
 			@server = sinon.fakeServer.create()
 			@server.respondWith 'GET', '/tasks', @validResponse @fixtures.Tasks.valid.tasks
-			@tasks = new Privydo.Models.Tasks
+			@tasks = new IronTask.Models.Tasks
 			writeSessionCookie 'key', 'secret'
 
 

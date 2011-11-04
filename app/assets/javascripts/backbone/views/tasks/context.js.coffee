@@ -1,5 +1,5 @@
 #=require singleclick
-class Privydo.Views.Context extends Backbone.View
+class IronTask.Views.Context extends Backbone.View
 	template: JST['backbone/templates/tasks/context']
 	tagName: 'li'
 
@@ -24,7 +24,7 @@ class Privydo.Views.Context extends Backbone.View
 				models = []
 				for draggable, i in ui.helper
 					models.push  $($(ui.helper)[i]).data('model')
-				_.each models, (model) => model.moveTo(@model.id) if model instanceof Privydo.Models.Task
+				_.each models, (model) => model.moveTo(@model.id) if model instanceof IronTask.Models.Task
 				$(ui.helper).remove()
 		)
 		@
@@ -46,7 +46,7 @@ class Privydo.Views.Context extends Backbone.View
 	close: =>
 		@model.save { text : @input.val() },
 			error: (m, res) =>
-				new Privydo.Views.Error {message: res.responseText or res}
+				new IronTask.Views.Error {message: res.responseText or res}
 			success: =>
 				$(@el).removeClass 'editing'
 				if @new

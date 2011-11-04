@@ -9,17 +9,17 @@ describe "View: Contexts", ->
 				@el = document.createElement 'li'
 				@
 			@contextRenderSpy = sinon.spy @contextView, "render"
-			@contextViewStub = sinon.stub(window.Privydo.Views, "Context").returns @contextView
+			@contextViewStub = sinon.stub(window.IronTask.Views, "Context").returns @contextView
 
 			@c1 = new Backbone.Model {id:1}
 			@c2 = new Backbone.Model {id:2}
 			@c3 = new Backbone.Model {id:3}
 
-			@view = new Privydo.Views.Contexts {collection: new Backbone.Collection [@c1, @c2, @c3]}
+			@view = new IronTask.Views.Contexts {collection: new Backbone.Collection [@c1, @c2, @c3]}
 			@view.addContexts()
 
 		afterEach ->
-			window.Privydo.Views.Context.restore()
+			window.IronTask.Views.Context.restore()
 
 		it "creates a Context view for each context item", ->
 			expect(@contextViewStub).toHaveBeenCalledThrice()
@@ -38,7 +38,7 @@ describe "View: Contexts", ->
 
 		describe "When the add new list button is clicked", ->
 			it "adds a new task to the collection", ->
-				@addContextView = new Privydo.Views.AddContext { collection: @view.collection }
+				@addContextView = new IronTask.Views.AddContext { collection: @view.collection }
 				spy = sinon.spy @view.collection, "add"
 				@addContextView.addNew()
 				expect(spy).toHaveBeenCalledOnce()

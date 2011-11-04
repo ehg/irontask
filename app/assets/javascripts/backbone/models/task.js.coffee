@@ -1,6 +1,6 @@
 #= require pidcrypt/aes_cbc
 #= require cookies
-class Privydo.Models.Task extends Backbone.Model
+class IronTask.Models.Task extends Backbone.Model
 	defaults:
 		'done' 			: false
 		'order'			: -1
@@ -32,7 +32,7 @@ class Privydo.Models.Task extends Backbone.Model
 
 	parse: (res) ->
 		if res.id then return { id : res.id }
-		Privydo.Models.Task.parse(res)
+		IronTask.Models.Task.parse(res)
 
 	sync: (method, model, options) ->
 		if method == "create" or method == "update"
@@ -82,13 +82,13 @@ class Privydo.Models.Task extends Backbone.Model
 		@save { contexts: [context] }
 		@trigger 'resort', @
 	
-class Privydo.Models.Tasks extends Backbone.Collection
-	model: Privydo.Models.Task
+class IronTask.Models.Tasks extends Backbone.Collection
+	model: IronTask.Models.Task
 	url: '/tasks'
 	
 	parse: (res) ->
 		_.map(res, (o) ->
-			Privydo.Models.Task.parse(o)
+			IronTask.Models.Task.parse(o)
 		)
 
 	done: ->
@@ -103,7 +103,7 @@ class Privydo.Models.Tasks extends Backbone.Collection
 		@models.filter (t) ->
 			_.intersect(t.get('contexts'), ids).length > 0
 		
-class Privydo.Models.DisplayTasks extends Privydo.Models.Tasks
+class IronTask.Models.DisplayTasks extends IronTask.Models.Tasks
 	comparator: (task) ->
 		date = task.get('date') || new Date(2998,5,1)
 		order = task.get('order') || 0
@@ -111,6 +111,6 @@ class Privydo.Models.DisplayTasks extends Privydo.Models.Tasks
 		"#{date_order}|#{task.get('text').toUpperCase()}"
 
 	notdone_or_done_today: ->
-		new Privydo.Models.DisplayTasks @filter (task) ->
+		new IronTask.Models.DisplayTasks @filter (task) ->
 			doneDate = task.get 'doneDate'
 			task.get('done') == false or task.get('done') is true and doneDate and doneDate.equals(Date.today())

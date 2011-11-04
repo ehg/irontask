@@ -2,7 +2,7 @@
 
 describe "Context model", ->
 	beforeEach ->
-		@context = new Privydo.Models.Context
+		@context = new IronTask.Models.Context
 		@eventSpy = sinon.spy()
 		@context.bind 'error', @eventSpy
 	
@@ -48,16 +48,16 @@ describe "Context model", ->
 		expect(@eventSpy).toHaveBeenCalledOnce()
 
 	it "should initialise with a random guid id", ->
-		context = new Privydo.Models.Context { text : 'text', order : 0, selected : false }
+		context = new IronTask.Models.Context { text : 'text', order : 0, selected : false }
 		expect(context.id).toBeDefined()
 
 	it "should save the whole collections object to the server", ->
 		# TODO: test we're saving encrypted collection?
-		@contexts = new Privydo.Models.Contexts
-		@contexts.add new Privydo.Models.Context { text : 'At the G', order : 3, selected : false }
-		@contexts.add new Privydo.Models.Context { text : 'Biscuit', order : 0, selected : false }
-		@contexts.add new Privydo.Models.Context { text : 'Egg', order : 1, selected : false }
-		@contexts.add new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
+		@contexts = new IronTask.Models.Contexts
+		@contexts.add new IronTask.Models.Context { text : 'At the G', order : 3, selected : false }
+		@contexts.add new IronTask.Models.Context { text : 'Biscuit', order : 0, selected : false }
+		@contexts.add new IronTask.Models.Context { text : 'Egg', order : 1, selected : false }
+		@contexts.add new IronTask.Models.Context { text : 'Ham', order : 2, selected : true }
 		@contexts.add @context
 
 		@context.save { text : 'At the G', order : 3, selected : false }
@@ -65,11 +65,11 @@ describe "Context model", ->
 
 describe "Context collection", ->
 	beforeEach ->
-		@contexts = new Privydo.Models.Contexts
-		@c1 = new Privydo.Models.Context { text : 'At the Gates', order : 3, selected : false }
-		@c2 = new Privydo.Models.Context { text : 'Biscuit', order : 0, selected : false }
-		@c3 = new Privydo.Models.Context { text : 'Egg', order : 1, selected : true }
-		@c4 = new Privydo.Models.Context { text : 'Ham', order : 2, selected : true }
+		@contexts = new IronTask.Models.Contexts
+		@c1 = new IronTask.Models.Context { text : 'At the Gates', order : 3, selected : false }
+		@c2 = new IronTask.Models.Context { text : 'Biscuit', order : 0, selected : false }
+		@c3 = new IronTask.Models.Context { text : 'Egg', order : 1, selected : true }
+		@c4 = new IronTask.Models.Context { text : 'Ham', order : 2, selected : true }
 
 	describe "Ordering", ->
 		it "should order the models by order", ->
@@ -119,7 +119,7 @@ describe "Context collection", ->
 #			writeSessionCookie 'key', 'secret'
 #			@server = sinon.fakeServer.create()
 #			@server.respondWith 'GET', '/users/chris', @validResponse @fixtures.MetaData.valid
-#			@contexts = new Privydo.Models.Contexts
+#			@contexts = new IronTask.Models.Contexts
 #
 #		afterEach ->
 #			@server.restore()

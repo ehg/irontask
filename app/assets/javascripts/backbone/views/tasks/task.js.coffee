@@ -1,5 +1,5 @@
 #= require datejs/date-en-GB
-class Privydo.Views.Task extends Backbone.View
+class IronTask.Views.Task extends Backbone.View
 	template: JST['backbone/templates/tasks/task']
 	tagName: 'li'
 
@@ -97,7 +97,7 @@ class Privydo.Views.Task extends Backbone.View
 		if klass.search('date') > -1 then data = {date: input.val()} else data = {text: input.val()}
 		@model.save data,
 			error: (model, response) ->
-				new Privydo.Views.Error({message: response.responseText or response})
+				new IronTask.Views.Error({message: response.responseText or response})
 		$(@el).removeClass "editing_#{klass.replace('_input', '')}"
 	
 	update_on_enter: (e) ->

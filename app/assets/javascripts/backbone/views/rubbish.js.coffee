@@ -1,10 +1,14 @@
-class Privydo.Views.Rubbish extends Backbone.View
+class IronTask.Views.Rubbish extends Backbone.View
 	template: JST['backbone/templates/rubbish']
 	el: '.rubbish'
 
 	initialize: ->
 		$('.rubbish').droppable(
 			tolerance: 'touch'
+			over: ->
+				$(@).find('.notice-content').fadeTo 100, 0.7
+			out: ->
+				$(@).find('.notice-content').fadeTo 100, 1.0
 			drop: (event, ui) =>
 				models = []
 				for draggable, i in ui.helper
@@ -15,11 +19,14 @@ class Privydo.Views.Rubbish extends Backbone.View
 
 	render: ->
 		$('.rubbish').html @template()
-		$('.footer-container').height($('footer-container').height * 2)
-		@toggleBounce()
+		@show()
 		@
 	
-	toggleBounce: ->
-		mode = if $('.rubbish').is(':hidden') then 'show' else 'hide'
-		$('.rubbish').effect "bounce", { times: 2, mode: mode, direction: 'down'}, 300
+	show: ->
+		$('#footer-container').height $('#footer-container').height() * 2
+		$('.rubbish').effect "bounce", { times: 2, mode: 'show', direction: 'down'}, 300
 	
+	hide: ->
+		$('.rubbish').effect "bounce", { times: 2, mode: 'hide', direction: 'down'}, 300, ->
+			$('#footer-container').height 37
+

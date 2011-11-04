@@ -4,7 +4,7 @@
 #= require_tree ./views
 #= require_tree ./routers
 
-window.Privydo =
+window.IronTask =
   Models: {}
   Collections: {}
   Routers: {}

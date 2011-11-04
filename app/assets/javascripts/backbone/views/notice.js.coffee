@@ -1,5 +1,5 @@
 #= require jquery.dotimeout
-class Privydo.Views.Notice extends Backbone.View
+class IronTask.Views.Notice extends Backbone.View
 	className: "success"
 	displayLength: 5000
 	defaultMessage: ''
@@ -28,6 +28,6 @@ class Privydo.Views.Notice extends Backbone.View
 		display + '</ul>'
 
 
-class Privydo.Views.Error extends Privydo.Views.Notice
+class IronTask.Views.Error extends IronTask.Views.Notice
 	className: "error"
 	defaultMessage: "Shit. It's all gone wrong :("

@@ -10,7 +10,7 @@ describe "View: Notice", ->
 
 	describe "When the message is text", ->
 		beforeEach ->
-			@view = new Privydo.Views.Notice {message: 'Test message'}
+			@view = new IronTask.Views.Notice {message: 'Test message'}
 			@view.render()
 
 		it "shows the notice bar", ->
@@ -22,7 +22,7 @@ describe "View: Notice", ->
 
 	describe "When the message is JSON (validation from server)", ->
 		beforeEach ->
-			@view = new Privydo.Views.Notice {message: JSON.stringify [{"magic_word" : "wrong"}, {"something" : "elsewrong"}] }
+			@view = new IronTask.Views.Notice {message: JSON.stringify [{"magic_word" : "wrong"}, {"something" : "elsewrong"}] }
 			@view.render()
 
 		it "renders the errors in a list", ->

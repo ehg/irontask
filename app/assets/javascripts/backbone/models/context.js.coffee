@@ -1,6 +1,6 @@
 #=require encryption
 #=require guid
-class Privydo.Models.Context	extends Backbone.Model
+class IronTask.Models.Context	extends Backbone.Model
 	url: ->
 		'/users/' + window.username
 
@@ -11,10 +11,10 @@ class Privydo.Models.Context	extends Backbone.Model
 
 	initialize: ->
 		if @isNew()
-			@set {id : Privydo.Guid.new()}
+			@set {id : IronTask.Guid.new()}
 
 	validate: (attrs) ->
-		return "invalid guid" if 'id' of attrs and !Privydo.Guid.is_valid(attrs.id)
+		return "invalid guid" if 'id' of attrs and !IronTask.Guid.is_valid(attrs.id)
 		return "Can't be empty. Press Escape key to cancel." if 'text' of attrs and attrs.text.length < 1
 		return "That's too long, sorry." if 'text' of attrs and attrs.text.length > 18
 		return "no order" if 'order' of attrs and !_.isNumber(attrs.order)
@@ -53,8 +53,8 @@ class Privydo.Models.Context	extends Backbone.Model
 					t.save { contexts: task_contexts }
 			@collection.remove @
 
-class Privydo.Models.Contexts extends Backbone.Collection
-	model: Privydo.Models.Context
+class IronTask.Models.Contexts extends Backbone.Collection
+	model: IronTask.Models.Context
 	url: ->
 		'/users/' + window.username
 	

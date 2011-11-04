@@ -1,6 +1,6 @@
 #=require datejs/date-en-GB
 #=require ui.multisortable.js
-class Privydo.Views.TaskList extends Backbone.View
+class IronTask.Views.TaskList extends Backbone.View
 	tagName: 'ul'
 
 	initialize: ->
@@ -25,7 +25,7 @@ class Privydo.Views.TaskList extends Backbone.View
 		@
 
 	addTask: (task) ->
-		view = new Privydo.Views.Task {model: task}
+		view = new IronTask.Views.Task {model: task}
 		$(@el).append view.render().el
 		
 	setSelectedContexts: (contexts) -># how can we test this? coupled? move to collection
@@ -33,7 +33,7 @@ class Privydo.Views.TaskList extends Backbone.View
 		@addTasks()
 
 	setSortable: ->
-		rubbish = new Privydo.Views.Rubbish
+		rubbish = new IronTask.Views.Rubbish
 		$(@el).multisortable
 			scroll: false
 			opacity: 0.5
@@ -51,7 +51,7 @@ class Privydo.Views.TaskList extends Backbone.View
 				$(@el).multisortable 'option', 'items', "li"
 				$(@el).multisortable 'refresh'
 				$(@el).find('li').removeClass('ui-multisort-grouped')
-				rubbish.toggleBounce()
+				rubbish.hide()
 		
 
 	setSortableItems: (ui) ->

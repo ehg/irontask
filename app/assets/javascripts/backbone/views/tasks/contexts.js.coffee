@@ -1,11 +1,11 @@
-class Privydo.Views.Contexts extends Backbone.View
+class IronTask.Views.Contexts extends Backbone.View
 	tagName: 'ul'
 
 
 	initialize: ->
 		_.bindAll @, 'addContexts', 'addContext', 'reorder'
 		@collection.bind 'select', @selection_changed, @
-		rubbish = new Privydo.Views.Rubbish
+		rubbish = new IronTask.Views.Rubbish
 
 		$(@el).sortable
 			distance: 15
@@ -23,7 +23,7 @@ class Privydo.Views.Contexts extends Backbone.View
 			start: (events, ui) =>
 				rubbish.render()
 			stop: (events, ui) =>
-				rubbish.toggleBounce()
+				rubbish.hide()
 
 	reorder: ->
 		@collection.sort()
@@ -34,7 +34,7 @@ class Privydo.Views.Contexts extends Backbone.View
 		@collection.each @addContext
 
 	addContext: (context) ->
-		view = new Privydo.Views.Context {model : context}
+		view = new IronTask.Views.Context {model : context}
 		$(@el).append view.render().el
 
 

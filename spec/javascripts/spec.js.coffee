@@ -5,7 +5,7 @@
 #= require backbone
 #= require backbone_rails_sync
 #= require backbone_datalink
-#= require backbone/privydo
+#= require backbone/irontask
 #= require sinon-1.1.1
 #= require encryption
 #= require_tree ./

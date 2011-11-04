@@ -1,5 +1,5 @@
 #= require jquery.watermark.min
-class Privydo.Views.TaskPage extends Backbone.View
+class IronTask.Views.TaskPage extends Backbone.View
 	template: JST['backbone/templates/tasks/page']
 
 	events:
@@ -10,7 +10,7 @@ class Privydo.Views.TaskPage extends Backbone.View
 		@render()
 	
 	error: (model, col) ->#TODO: what's col?
-		new Privydo.Views.Error {message: col}
+		new IronTask.Views.Error {message: col}
 
 	render: ->
 		$(@el).html @template

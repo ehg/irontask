@@ -3,7 +3,7 @@ describe "View: Rubbish", ->
 		beforeEach ->
 			setFixtures "<div class='rubbish'></div><div class='rubbish'></div><div id='dragtest'></div>"
 			$.fx.off = true
-			@view = new Privydo.Views.Rubbish
+			@view = new IronTask.Views.Rubbish
 			@spy = sinon.spy @view, "toggleBounce"
 			@view.render()
 

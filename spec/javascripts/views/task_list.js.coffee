@@ -1,6 +1,6 @@
 describe "View: TaskList", ->
 	beforeEach ->
-		@view = new Privydo.Views.TaskList()
+		@view = new IronTask.Views.TaskList()
 		setFixtures "<ul id='#task-list'></ul>"
 
 	describe "Rendering when there are no undone tasks", ->
@@ -19,7 +19,7 @@ describe "View: TaskList", ->
 				@el = document.createElement 'li'
 				@
 			@taskRenderSpy = sinon.spy @taskView, "render"
-			@taskViewStub = sinon.stub(window.Privydo.Views, "Task").returns @taskView
+			@taskViewStub = sinon.stub(window.IronTask.Views, "Task").returns @taskView
 			@task1 = new Backbone.Model {id:1, done: false}
 			@task2 = new Backbone.Model {id:2, done: false}
 			@task3 = new Backbone.Model {id:3, done: true, doneDate: Date.today()}
@@ -35,7 +35,7 @@ describe "View: TaskList", ->
 			@view.addTasks()
 
 		afterEach ->
-			window.Privydo.Views.Task.restore()
+			window.IronTask.Views.Task.restore()
 
 		it "should create a Task view for each task item", ->
 			expect(@taskViewStub).toHaveBeenCalledThrice()

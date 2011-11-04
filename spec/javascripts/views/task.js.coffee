@@ -12,7 +12,7 @@ describe "Task view", ->
 			@set {'done':true}
 		@model.putOff = ->
 			'woot'
-		@view = new Privydo.Views.Task( {model: @model} )
+		@view = new IronTask.Views.Task( {model: @model} )
 		setFixtures '<ul id="tasks"></ul>'
 
 	afterEach ->
@@ -51,21 +51,21 @@ describe "Task view", ->
 
 			it "adds the overdue class to overdue tasks", ->
 				@model.set {'date' : new Date(2011, 6, 22)}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 				expect(@task).toHaveClass 'overdue'
 				
 			it "shows yesterday's date as 'Yesterday'", ->
 				@model.set {'date' : Date.today().addDays(-1)}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first .task .task_date')
 				expect(@task).toHaveText 'Yesterday'
 
 			it "shows today's date as 'Today' and makes it bold", ->
 				@model.set {'date' : Date.today()}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 				expect(@task).toHaveClass 'today'
@@ -73,14 +73,14 @@ describe "Task view", ->
 
 			it "shows tomorrow's date as 'Tomorrow'", ->
 				@model.set {'date' : Date.today().addDays(1)}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first .task .task_date')
 				expect(@task).toHaveText 'Tomorrow'
 
 			it "shows a date in the next 7 days as its day name", ->
 				@model.set {'date' : Date.today().addDays(4)}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first .task .task_date')
 				name = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -95,7 +95,7 @@ describe "Task view", ->
 		describe "When a task is done", ->
 			it "shows a strikethroughed task if it was marked as done today", ->
 				@model.set {'done' : true, 'doneDate' : Date.today()}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 				expect(@task).not.toBeNull()
@@ -104,14 +104,14 @@ describe "Task view", ->
 			# this logic is in the task list
 			xit "does not show the task if it was not done today", ->
 				@model.set {'done' : true, 'doneDate' : Date.today().addDays(-4)}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 				expect(@task).toBeNull()
 
 			it "does not show the task menu on hover", ->
 				@model.set {'done' : true, 'doneDate' : Date.today()}
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 				@task.hover()
@@ -121,7 +121,7 @@ describe "Task view", ->
 		describe "When task has no date", ->
 			beforeEach ->
 				@model.set {'date' : null }
-				@view = new Privydo.Views.Task {model: @model}
+				@view = new IronTask.Views.Task {model: @model}
 				$('#tasks').html(@view.render().el)
 				@task = $('ul#tasks li:first')
 

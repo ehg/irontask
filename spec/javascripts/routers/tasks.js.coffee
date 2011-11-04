@@ -2,7 +2,7 @@ describe "Tasks Routing", ->
 
 	beforeEach ->
 		@routeSpy = sinon.spy()
-		@router = new Privydo.Routers.TasksRouter
+		@router = new IronTask.Routers.TasksRouter
 
 	afterEach ->
 		window.location.hash = ""
@@ -19,15 +19,15 @@ describe "Tasks Routing", ->
 describe "Tasks Routes", ->
 
 	beforeEach ->
-		@router = new Privydo.Routers.TasksRouter
+		@router = new IronTask.Routers.TasksRouter
 		@collection = new Backbone.Collection
 		@fetchStub = sinon.stub(@collection, "fetch").returns(null)
-		@taskListViewStub = sinon.stub(window["Privydo"]["Views"], "TaskList").returns(new Backbone.View)
-		@taskCollectionStub = sinon.stub(window["Privydo"]["Models"], "Tasks").returns(@collection)
+		@taskListViewStub = sinon.stub(window["IronTask"]["Views"], "TaskList").returns(new Backbone.View)
+		@taskCollectionStub = sinon.stub(window["IronTask"]["Models"], "Tasks").returns(@collection)
 	
 	afterEach ->
-		window["Privydo"]["Views"].TaskList.restore()
-		window["Privydo"]["Models"].Tasks.restore()
+		window["IronTask"]["Views"].TaskList.restore()
+		window["IronTask"]["Models"].Tasks.restore()
 	
 	describe "Index handler", ->
 

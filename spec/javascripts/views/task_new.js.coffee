@@ -1,6 +1,6 @@
 describe "Tasks page view", ->
 	beforeEach ->
-		@view = new Privydo.Views.TaskPage
+		@view = new IronTask.Views.TaskPage
 		setFixtures "<div id='create-task'></div>"
 		@view.render()
 		@input = $(@view.el).find('#add_task')

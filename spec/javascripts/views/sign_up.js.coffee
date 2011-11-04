@@ -17,7 +17,7 @@ describe "Sign up view", ->
 		@model.valid_fields = ->
 			false
 		@model.new = ->
-		@view = new Privydo.Views.Signup {model: @model}
+		@view = new IronTask.Views.Signup {model: @model}
 		setFixtures "<div id='app'></div>"
 
 	afterEach ->

@@ -1,5 +1,5 @@
 #= require pidcrypt/sha256
-class Privydo.Models.Account extends Backbone.Model
+class IronTask.Models.Account extends Backbone.Model
 	url: '/account'
 	paramRoot: 'user'
 	valid_username: false
@@ -54,7 +54,7 @@ class Privydo.Models.Account extends Backbone.Model
 				@.trigger 'error', "could not contact server"
 
 	new: (username, plaintext_passwd, magic_word, callbacks) ->
-		contexts = new Privydo.Models.Contexts [{text: 'Home', order: 0, selected: true},{text: 'Work', order: 1, selected: false}]
+		contexts = new IronTask.Models.Contexts [{text: 'Home', order: 0, selected: true},{text: 'Work', order: 1, selected: false}]
 		password = @hash(plaintext_passwd) if plaintext_passwd
 		metadata = encrypt JSON.stringify({ contexts : contexts.toJSON()}), password
 		@save

@@ -1,5 +1,5 @@
 #=require password_strength_plugin
-class Privydo.Views.Signup extends Backbone.View
+class IronTask.Views.Signup extends Backbone.View
 	template: JST["backbone/templates/accounts/new"]
 	
 	events:{
@@ -39,12 +39,12 @@ class Privydo.Views.Signup extends Backbone.View
 		event.preventDefault()
 		@model.new @username_input.val(), @password_input.val(), @magic_input.val(),
 			success: (model, response) =>
-				new Privydo.Views.Notice { message : "Thanks! We'll now take you to the sign in page." }
+				new IronTask.Views.Notice { message : "Thanks! We'll now take you to the sign in page." }
 				setTimeout ->
 					window.location.replace("/user_session/new")
 				, 2000
 			error: (model, response) ->
-				new Privydo.Views.Error {message: response.responseText or response}
+				new IronTask.Views.Error {message: response.responseText or response}
 
 	# Events
 	username_keyup: (event) =>

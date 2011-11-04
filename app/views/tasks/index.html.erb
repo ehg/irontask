@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(function() {
 	  window.username = '<%= URI.escape user.username %>'
-      window.app = new Privydo.Routers.TasksRouter
+      window.app = new IronTask.Routers.TasksRouter
       Backbone.history.start();
       });
 </script>

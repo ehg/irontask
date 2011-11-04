@@ -10,4 +10,4 @@
 //= require underscore
 //= require backbone
 //= require encryption
-//= require backbone/privydo
+//= require backbone/irontask

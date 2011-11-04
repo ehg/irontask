@@ -1,4 +1,4 @@
-class Privydo.Guid
+class IronTask.Guid
 	@new: ->
 		"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->
 			r = Math.random() * 16 | 0

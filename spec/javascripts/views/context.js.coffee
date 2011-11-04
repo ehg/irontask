@@ -9,7 +9,7 @@ describe "Views: Context", ->
 			'woot2'
 		@model.save = ->
 			'woot33'
-		@view = new Privydo.Views.Context {model: @model}
+		@view = new IronTask.Views.Context {model: @model}
 		setFixtures "<ul id='contexts-list'></ul>"
 
 	describe "On render", ->

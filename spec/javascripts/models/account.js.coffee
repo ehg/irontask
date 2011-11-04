@@ -1,6 +1,6 @@
 describe "Account", ->
 	beforeEach ->
-		@account = new Privydo.Models.Account ( {username : 'test', password : 'testing'} )
+		@account = new IronTask.Models.Account ( {username : 'test', password : 'testing'} )
 		@eventSpy = sinon.spy()
 		@account.bind("error", @eventSpy)
 
