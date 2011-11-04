@@ -60,13 +60,12 @@ class IronTask.Models.Task extends Backbone.Model
 			super attr, options
 
 	putOff: ->
-		oldDate = @get('date')
-		if oldDate
-			yesterday = Date.today().addDays(-1)
-			oldDate = yesterday if oldDate.compareTo(yesterday) == -1
-			newDate = oldDate.add(1).days()
-			@set { date : newDate }, {silent: true}
-			@change()
+		yesterday = Date.today().addDays(-1)
+		oldDate = @get('date') || yesterday
+		oldDate = yesterday if oldDate.compareTo(yesterday) == -1
+		newDate = oldDate.add(1).days()
+		@set { date : newDate }, {silent: true}
+		@change()
 
 	putOffSave: ->
 		@save {}

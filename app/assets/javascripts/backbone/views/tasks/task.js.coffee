@@ -44,7 +44,6 @@ class IronTask.Views.Task extends Backbone.View
 		@input_date.blur @close
 		@input_date.val date_text
 		@display_as_done() if @model.get 'done'
-		@$('.putoff').toggle date?
 		if @model.new == true
 			@$('.task').effect 'pulsate', {times:3}, =>
 				@model.new = false
