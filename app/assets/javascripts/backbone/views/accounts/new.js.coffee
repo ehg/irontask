@@ -25,7 +25,6 @@ class IronTask.Views.Signup extends Backbone.View
 		@username_input.watermark()
 		#@password_input.watermark()
 		@confirm_input.watermark()
-		@magic_input.watermark()
 		@password_input.passStrength {userid: @username_input}
 		@
 	
@@ -33,11 +32,10 @@ class IronTask.Views.Signup extends Backbone.View
 		@username_input = @$('input[name=username]')
 		@password_input = @$('input[name=password]')
 		@confirm_input = @$('input[name=confirm_password]')
-		@magic_input = @$('input[name=secret]')
 
 	new: (event) ->
 		event.preventDefault()
-		@model.new @username_input.val(), @password_input.val(), @magic_input.val(),
+		@model.new @username_input.val(), @password_input.val(),
 			success: (model, response) =>
 				new IronTask.Views.Notice { message : "Thanks! We'll now take you to the sign in page." }
 				setTimeout ->
