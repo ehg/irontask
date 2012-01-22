@@ -8,7 +8,6 @@ Feature: Sign up
 		And I fill in "username" with "jackbauer"
 		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "secret" with "please"
 		And I wait
 		And I press "Sign me up!"
 		Then I should see "We'll now take you to the sign in page"
@@ -19,19 +18,8 @@ Feature: Sign up
 		And I fill in "username" with "jackbauer"
 		And I fill in "password" with "weakling"
 		And I fill in "confirm_password" with "weakling"
-		And I fill in "secret" with "please"
 		And I press "Sign me up!"
 		Then I should see "That isn't very secure."
-
-	Scenario: I sign up with the wrong secret password
-		When I go to the sign up page
-		And I fill in "username" with "jackbauer"
-		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "secret" with "beta"
-		And I wait
-		And I press "Sign me up!"
-		Then I should see "Sorry, your secret word is WRONG"
 
 	Scenario: I sign up with an empty username
 		When I go to the sign up page
@@ -47,7 +35,6 @@ Feature: Sign up
 		And I fill in "username" with "jackbauer"
 		And I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "secret" with "please"
 		And I wait
 		And I press "Sign me up!"
 		Then I should see "That's taken :( Please choose another."
@@ -57,7 +44,6 @@ Feature: Sign up
 		And I fill in "username" with "jackbauer"
 		And I fill in "password" with ""
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "secret" with "please"
 		And I press "Sign me up!"
 		Then I should see "A password is required!"
 	
@@ -66,7 +52,6 @@ Feature: Sign up
 		And I fill in "username" with "jackbauer"
 		And I fill in "password" with "jumpingjesusohlawwwd"
 		And I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"
-		And I fill in "secret" with "please"
 		And I press "Sign me up!"
 		Then I should see "This doesn't match your password!"
 

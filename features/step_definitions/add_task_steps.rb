@@ -3,7 +3,6 @@ Given /^I have signed up$/ do
   step %{I fill in "username" with "jackbauer"}
   step %{I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
   step %{I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
-  step %{I fill in "secret" with "please"}
   step %{I wait}
   step %{I press "Sign me up!"}
   end
