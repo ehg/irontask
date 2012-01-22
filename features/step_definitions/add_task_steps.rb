@@ -1,11 +1,11 @@
 Given /^I have signed up$/ do
-  When %{I go to the sign up page}
-  When %{I fill in "username" with "jackbauer"}
-  When %{I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
-  When %{I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
-  When %{I fill in "secret" with "please"}
-  When %{I wait}
-  When %{I press "Sign me up!"}
+  step %{I go to the sign up page}
+  step %{I fill in "username" with "jackbauer"}
+  step %{I fill in "password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
+  step %{I fill in "confirm_password" with "Ve4yStr0ngPa55w0rd!43sdfs"}
+  step %{I fill in "secret" with "please"}
+  step %{I wait}
+  step %{I press "Sign me up!"}
   end
 
 When /^(?:|I )click "([^"]*)"$/ do |selector|
@@ -32,7 +32,7 @@ When /^I release ctrl$/ do
 end
 
 When /^I fill in "([^"]*)" with "([^"]*)" and press enter$/ do |arg1, arg2|
-  When %{I fill in "#{arg1}" with "#{arg2}"}
+  step %{I fill in "#{arg1}" with "#{arg2}"}
   find_field(arg1).native.send_keys("\n")
   wait_for_ajax
   end
@@ -45,14 +45,14 @@ end
 
 Given /^I have entered my tasks for today$/ do
   laundry_day = Date.today.to_time.advance(:days => 2).to_date.strftime "%A"
-  When %{I select the "Home" list}
-  When %{I fill in "add_task" with "Buy cheese and milk and bread for yesterday" and press enter}
-  When %{I fill in "add_task" with "Tidy up room for today" and press enter}
-  When %{I fill in "add_task" with "Do laundry for #{laundry_day}" and press enter}
-  When %{I fill in "add_task" with "Pay credit card bill for 29/12/11" and press enter}
-  When %{I select the "Work" list}
-  When %{I fill in "add_task" with "Write cucumber features for today" and press enter}
-  When %{I fill in "add_task" with "Sort Github repos for 29/12/11" and press enter}
+  step %{I select the "Home" list}
+  step %{I fill in "add_task" with "Buy cheese and milk and bread for yesterday" and press enter}
+  step %{I fill in "add_task" with "Tidy up room for today" and press enter}
+  step %{I fill in "add_task" with "Do laundry for #{laundry_day}" and press enter}
+  step %{I fill in "add_task" with "Pay credit card bill for 29/12/11" and press enter}
+  step %{I select the "Work" list}
+  step %{I fill in "add_task" with "Write cucumber features for today" and press enter}
+  step %{I fill in "add_task" with "Sort Github repos for 29/12/11" and press enter}
   end
 
 Then /^I should see the date increase by one day$/ do 
@@ -67,12 +67,12 @@ end
 
 Then /^I should see the following tasks:$/ do |table|
   table.hashes.each do |hash|
-    Then %{I should see "#{hash["Task"]}"}
+    step %{I should see "#{hash["Task"]}"}
     if hash["Task"] = "Do laundry"
       laundry_day = Date.today.to_time.advance(:days => 2).to_date.strftime "%A"
-      Then %{I should see "#{laundry_day}"}
+      step %{I should see "#{laundry_day}"}
     else
-      Then %{I should see "#{hash["Date"]}"}
+      step %{I should see "#{hash["Date"]}"}
     end
   end
 end
@@ -127,7 +127,7 @@ end
 
 Then /^I should( not)? see the "([^"]*)" list( selected)?$/ do |see, list, selected|
   if !see
-    Then %{I should see "#{list}"}
+    step %{I should see "#{list}"}
     if selected
       li = find(:xpath, "//li[@class='selected']/div/span[text()='#{list}']")
       li.should_not be_nil
@@ -136,7 +136,7 @@ Then /^I should( not)? see the "([^"]*)" list( selected)?$/ do |see, list, selec
     if see and selected
       lambda {find(:xpath, "//li[@class='selected']/div/span[text()='#{list}']")}.should raise_error
     else
-      Then %{I should not see "#{list}"}
+      step %{I should not see "#{list}"}
     end
   end
 end
