@@ -1,8 +1,8 @@
 class IronTask.Routers.Signup extends Backbone.Router
 
-	routes: {
-		"" : "new"
-		}
+  routes: {
+    "" : "new"
+    }
 
-	new: ->
-		new IronTask.Views.Signup { model: new IronTask.Models.Account }
+  new: ->
+    new IronTask.Views.Signup { model: new IronTask.Models.Account }

@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(function() {
-	  window.username = '<%= URI.escape user.username %>'
+    window.username = '<%= URI.escape user.username %>'
       window.app = new IronTask.Routers.TasksRouter
       Backbone.history.start();
       });
@@ -9,20 +9,20 @@
 <div id="main" class="row border">
   <div id="contexts" class="column grid_2">
     <img src='/assets/add-list.png' id='add-context'>
-	  <ul id='contexts-list'>
-	  </ul>
+    <ul id='contexts-list'>
+    </ul>
 
   </div>
   <div id="app" class="column grid_8">
-	  <div id='create-task'></div>
-	  <div id='tasks'>
-		  <ul id='task-list'></ul>
-	  </div>
+    <div id='create-task'></div>
+    <div id='tasks'>
+      <ul id='task-list'></ul>
+    </div>
   </div> 
  </div>
 
 <!-- <div style='text-align: center; float:right; left: 200px;'>
-	<img src='/assets/bin.png' id='bin' >
+  <img src='/assets/bin.png' id='bin' >
 </div> -->
 
 
